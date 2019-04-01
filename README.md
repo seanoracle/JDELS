@@ -1,8 +1,6 @@
-# JDELS
-Workshops for JD Edwards Lift and Shift / Functional Workshops on Processes in JD Edwards
+# JD Edwards Lift and Shift / Functional User Guide Workshops
 
   ![](images/CloudSolutionHubs.png)
-
 
 Welcome to the JD Edwards Lift and Shift Workshop and JD Edwards General User Guide. This workshop will walk you through the process of how to lift and shift your current JD Edwards environment into the cloud. 
 
