@@ -4,7 +4,10 @@ Workshops for JD Edwards Lift and Shift / Functional Workshops on Processes in J
   ![](images/CloudSolutionHubs.png)
 
 
-Welcome to the creating API&Gateway on OCI workshop. This workshop will walk you through the process of creating the Gateway on APIPCS and deploy API to it. 
+Welcome to the JD Edwards Lift and Shift Workshop and JD Edwards General User Guide. This workshop will walk you through the process of how to lift and shift your current JD Edwards environment into the cloud. 
+
+The JD Edwards General User Guide will walk you through general walkthroughs on how to do functional tasks and setups.
+
 
 To learn more about this workshop please watch the video below.
 
