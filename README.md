@@ -1,7 +1,7 @@
 # JDELS
 Workshops for JD Edwards Lift and Shift / Functional Workshops on Processes in JD Edwards
 
-  ![](images/CloudSolutionHubsIMG.png)
+  ![](images/CloudSolutionHubs.png)
 
 
 Welcome to the creating API&Gateway on OCI workshop. This workshop will walk you through the process of creating the Gateway on APIPCS and deploy API to it. 
