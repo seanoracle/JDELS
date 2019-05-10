@@ -11,7 +11,6 @@
 
 ![](images/oraclecode/youtube.png)
 
-<a href="https://youtu.be/" target="_video">Workshop Overview(InProgress)</a>
 
 <a name="Prerequisites"></a>
 ## Prerequisite Tools and Resources
