@@ -1,15 +1,7 @@
 # JD Edwards Lift and Shift / Functional User Guide Workshops
 
-1. [ Generating Secure SHell (SSH) Key Pairs on Your Local System. ](#SSH)
-2. [ Usage tips. ](#usage)
-
-<a name="desc"></a>
-## 1. Description
-
-sometext
-
-<a name="usage"></a>
-## 2. Usage tips
+1. [ Prerequisites. ](#Prerequisites)
+2. [ Generating Secure SHell (SSH) Key Pairs on Your Local System. ](#SSH)
 
   ![](images/CloudSolutionHubs.png)
 
@@ -24,6 +16,7 @@ To learn more about this workshop please watch the video below.
 
 <a href="https://youtu.be/" target="_video">Workshop Overview(InProgress)</a>
 
+<a name="Prerequisites"></a>
 ## Prerequisite Tools and Resources
 
 The PuTTY tool (http://www.putty.org) for generating SSH key pairs on the client machine that you will use to connect to any Linux server deployed by One-Click Provisioning.
