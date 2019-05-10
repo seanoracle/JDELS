@@ -1,5 +1,16 @@
 # JD Edwards Lift and Shift / Functional User Guide Workshops
 
+1. [ Description. ](#desc)
+2. [ Usage tips. ](#usage)
+
+<a name="desc"></a>
+## 1. Description
+
+sometext
+
+<a name="usage"></a>
+## 2. Usage tips
+
   ![](images/CloudSolutionHubs.png)
 
 Welcome to the JD Edwards Lift and Shift Workshop and JD Edwards General User Guide. This workshop will walk you through the process of how to lift and shift your current JD Edwards environment into the cloud. 
@@ -44,14 +55,14 @@ In addition to the above mentioned restricted ports for any internet browser, th
 * 6668, // Alternate IRC [Apple addition]
 * 6669, // Alternate IRC [Apple addition]
 
-### **Step 1**: Acquire an Oracle Cloud Trial or Workshop Account
+### Acquire an Oracle Cloud Trial or Workshop Account
 
 - Bookmark this page for future reference.
 
 - Please click on the following link to create your <a href="https://cloud.oracle.com/tryit" target="_trial">Free Account</a> and complete all the required steps to get your free Oracle Cloud Trial Account. When you complete the registration process you'll receive a $300 credit that will enable you to complete the lab for free.  Additionally, you'll have 1000s of hours left over to continue to explore the Oracle Cloud.
   ![](images/Trail.png)
   
-> NOTE: Soon after requesting your trial you will receive the following email. _You may begin working on Lab 100 before you receive this email_, but you will not be able to start Lab 200 until you have received it.
+> NOTE: You may proceed to the section below if you already have the access and credentials.
 
 Before You Begin
 ----------------
