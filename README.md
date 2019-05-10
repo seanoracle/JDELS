@@ -1,5 +1,6 @@
 # JD Edwards Lift and Shift / Functional User Guide Workshops
 
+## Table of Contents
 1. [ Prerequisites. ](#Prerequisites)
 2. [ Generating Secure SHell (SSH) Key Pairs on Your Local System. ](#SSH)
 
