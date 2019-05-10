@@ -53,23 +53,6 @@ In addition to the above mentioned restricted ports for any internet browser, th
   
 > NOTE: Soon after requesting your trial you will receive the following email. _You may begin working on Lab 100 before you receive this email_, but you will not be able to start Lab 200 until you have received it.
 
-
-### **Step 2**: Navigate to [LabGuide100](https://github.com/OracleCPS/End-to-end-API-Workshop/blob/master/workshop/LabGuide100.md): import your data on Apirary
-
-- _You can see a list of Lab Guides_ by clicking on the **Menu Icon** in the upper left corner of the browser window. You're now ready to continue with [LabGuide100](https://github.com/OracleCPS/End-to-end-API-Workshop/blob/master/workshop/LabGuide100.md)
-
-### **Step 3**: Navigate to [LabGuide200](https://github.com/OracleCPS/End-to-end-API-Workshop/blob/master/workshop/LabGuide200.md): create Gateway by using OCI instance and API Platform Cloud
-- The step by step installation instructions are found here, and you can follow them to install your gateway on Linux. After you finish this lab, your gateway is created and ready to use. 
- 
-  
-### **Step 4**: Navigate to [LabGuide300](https://github.com/OracleCPS/End-to-end-API-Workshop/blob/master/workshop/LabGuide300.md): create and configure the API and deploy it to gateway
-- This is the last step before your API is ready to use. In Lab 300, you will be able to create a API on APIPC, configure it with Apirary from Lab 100, and deploy it to the gateway you created in Lab 200. 
-
-Now, your API is able to use with your business need. You may also wanna setup some security policies to have some restrictions on the use of your API. No worries, please refer to Lab 400 (coming soon) and APIPC cover you by simply clicking!
-
-
-
-
 Before You Begin
 ----------------
 
