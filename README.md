@@ -9,12 +9,6 @@
 1. [ Prerequisites. ](#Prerequisites)
 2. [ Generating Secure SHell (SSH) Key Pairs on Your Local System. ](#SSH)
 
-
-The JD Edwards General User Guide will walk you through general walkthroughs on how to do functional tasks and setups.
-
-
-To learn more about this workshop please watch the video below.
-
 ![](images/oraclecode/youtube.png)
 
 <a href="https://youtu.be/" target="_video">Workshop Overview(InProgress)</a>
