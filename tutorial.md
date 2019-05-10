@@ -12,3 +12,33 @@ You should be aware of restricted ports that cannot be defined or used while cre
 * One-Click Provisioning Console for JD Edwards
 * All Internet Browsers
 * Google Chrome and Mozilla Firefox Browsers
+
+### One-Click Provisioning Console for JD Edwards
+Any port below 1024 is restricted.
+
+### All Internet Browsers
+The following are restricted ports enforced by the rules of any internet browser:
+* 2049
+* 4045
+* 6000
+
+### Google Chrome and Mozilla Firefox Browsers
+In addition to the above mentioned restricted ports for any internet browser, the Google Chrome and Mozilla Firefox browsers block specific ports which they deem as unsafe to use on HTTP/HTTPS protocol. Below are these restricted ports:
+* 3659, // apple-sasl / PasswordServer
+* 6665, // Alternate IRC [Apple addition]
+* 6666, // Alternate IRC [Apple addition]
+* 6667, // Standard IRC [Apple addition]
+* 6668, // Alternate IRC [Apple addition]
+* 6669, // Alternate IRC [Apple addition]
+
+## Creating a Compartment
+
+To create a Compartment for JD Edwards EnterpriseOne on Oracle Cloud Infrastructure:
+
+1. As the user for which you will create a public key to access the Terraform Staging Server, log in to Oracle Cloud Infrastructure using the following URL for the tenancy in which you want to provisioning infrastructure using the JD Edwards EnterpriseOne Infrastructure Provisioning Console: 
+
+https://console.<your_region-ad>.oraclecloud.com/#/a/
+
+For example: 
+
+https://console.us-ashburn-1.oraclecloud.com/#/a/
