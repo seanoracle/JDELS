@@ -9,3 +9,6 @@ The table below specifies the minimum Oracle Cloud Infrastructure resource requi
 ## Understanding Port Restrictions
 
 You should be aware of restricted ports that cannot be defined or used while creating any web component and/or server. These specific port restrictions for any One-Click Provisioning deployment of JD Edwards EnterpriseOne are grouped as follows:
+* One-Click Provisioning Console for JD Edwards
+* All Internet Browsers
+* Google Chrome and Mozilla Firefox Browsers
