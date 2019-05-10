@@ -1,4 +1,4 @@
-# JD Edwards Lift and Shift / Functional User Guide Workshops
+# JD Edwards Lift and Shift Guide
 
   ![](images/CloudSolutionHubs.png)
   
