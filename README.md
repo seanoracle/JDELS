@@ -94,7 +94,7 @@ Depending on your systems, you will need to create SSH key pairs either on a UNI
 * * * * *
 
 <a name="SSH"></a>
-![section 1](https://docs.oracle.com/en/applications/jd-edwards/tutorial-generate-ssh-keypair_terra/img/32_1.png)Generating Secure SHell (SSH) Key Pairs on Your Local System
+![section 1](https://docs.oracle.com/en/applications/jd-edwards/tutorial-generate-ssh-keypair_terra/img/32_1.png) Generating Secure SHell (SSH) Key Pairs on Your Local System
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Secure SHell (SSH) provides an encrypted login method that is a more secure replacement for Telnet for logging on to the JD Edwards One-Click Provisioning Server on the Oracle Cloud Infrastructure. Before you create your Oracle Cloud Infrastructure instance, you must generate SSH key pairs and upload the SSH public keys to Oracle Cloud Infrastructure. These SSH public keys will be used for authentication when you log in to the instance. You must also create pairs of private keys, one pair for use by the One-Click Provisioning Server to create instances for JD Edwards EnterpriseOne servers and another pair to enable access to the instances. Below is a summary of the required SSH keys and their formats:
