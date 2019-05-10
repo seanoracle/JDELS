@@ -1,6 +1,6 @@
 # JD Edwards Lift and Shift / Functional User Guide Workshops
 
-1. [ Description. ](#desc)
+1. [ Generating Secure SHell (SSH) Key Pairs on Your Local System. ](#SSH)
 2. [ Usage tips. ](#usage)
 
 <a name="desc"></a>
@@ -104,6 +104,7 @@ Depending on your systems, you will need to create SSH key pairs either on a UNI
 
 * * * * *
 
+<a name="SSH"></a>
 ![section 1](https://docs.oracle.com/en/applications/jd-edwards/tutorial-generate-ssh-keypair_terra/img/32_1.png)Generating Secure SHell (SSH) Key Pairs on Your Local System
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
