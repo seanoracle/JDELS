@@ -18,6 +18,7 @@
   * [Creating a Compartment](#creating-a-compartment)
   * [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
   * [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
+  * [Creating Additional Block Volumes for a Linux Instance](#creating-additional-block-volumes-for-a-linux-instance)
 
 
 ![](images/oraclecode/youtube.png)
@@ -427,4 +428,45 @@ Use this procedure to create a Linux VM instance for the Terraform Staging Serve
 [Create Instance - Part 2 - Networking Section](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/files/create_instance_networking.txt)
 
 13. If all required fields are completed with valid values, the **Create Instance** button is enabled and you can click it to create the defined instance.
+
+Creating Additional Block Volumes for a Linux Instance
+------------------------------------------------------
+
+Use this procedure to create additional storage to a Linux instance using Block Volumes, where the default storage is not considered in the equation. The minimum amount of Block Volume storage that can be allocated is 50 GB.
+
+1.  On the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper-left corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/img/using_the_console_storage_block_volumes.jpg)
+
+    [Navigation Menu - Storage > Block Volumes](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/files/using_the_console_storage_block_volumes.txt)
+
+2.  From the Navigation Menu, in the **Block Storage** section, click to select **Block Volumes**.
+3.  In the **List Scope** section in the left panel, use the **COMPARTMENT** drop-down to select the Compartment you created in the previous step, and also use the **STATE** drop-down to select **Available**.
+4.  Click the **Create Block Volume** button.
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/img/create_block_storage_1.jpg)
+
+    [Navigate to Storage > Block Volumes > Create Block Volume](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/files/create_block_storage_1.txt)
+
+5.  On Create Block Volume, complete these fields:
+
+    -   *CREATE IN COMPARTMENT*\
+        Use the drop-down to select the Compartment for which you want to add a Block Volume. In the example used in this document, the compartment is named JDEE1.
+    -   *NAME*\
+        Provide a name for the Block Volume. In this example, because the Block Volume is being added to support the JD Edwards EnterpriseOne Database Server, an example of a name might be **jdedbserver_volume**.
+    -   *AVAILABILITY DOMAIN*\
+        Use the drop-down to select the availability domain in which this Block Volume will be allocated.
+    -   *SIZE (IN GB)*\
+        Enter a value, which must between 50 and 2048 GB.
+
+        **Note:** The following example uses a value of **100 GB** which is what is specified for the Provisioning Server. For minimum storage requirements, refer to the Before You Begin for this Learning Path.
+
+    -   *BACKUP POLICY*\
+        Use the drop-down to select your backup policy. For details on the available policies, click the **?** icon next to the drop-down.
+
+        ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/img/create_block_storage_details_prov.jpg)
+
+        [Create Block Volume Storage for the Provisioning Server - Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/files/create_block_storage_details_prov.txt)
+
+6.  Click the **Create Block Volume** button.
 
