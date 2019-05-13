@@ -16,8 +16,6 @@
     + [Background](#background)
     + [What Do You Need?](#what-do-you-need-)
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 ![](images/oraclecode/youtube.png)
 
 
