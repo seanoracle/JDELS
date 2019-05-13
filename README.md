@@ -15,7 +15,7 @@
 * [Before You Begin](#before-you-begin)
   + [Background](#background)
   + [What Do You Need?](#what-do-you-need)
-* [Generating Secure SHell (SSH) Key Pairs on Your Local System](#generating-secure-shell)
+* [Generating Secure Shell (SSH) Key Pairs on Your Local System](#generating-secure-shell)
 * [Creating a Compartment](#creating-a-compartment)
 * [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
 * [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
