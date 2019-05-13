@@ -14,8 +14,8 @@
   + [Acquire an Oracle Cloud Trial or Workshop Account](#acquire-an-oracle-cloud-trial-or-workshop-account)
 * [Before You Begin](#before-you-begin)
   + [Background](#background)
-  + [What Do You Need?](#what-do-you-need-)
-* [Generating Secure SHell (SSH) Key Pairs on Your Local System](#generating-secure-shell--ssh--key-pairs-on-your-local-system)
+  + [What Do You Need?](#what-do-you-need)
+* [Generating Secure SHell (SSH) Key Pairs on Your Local System](#generating-secure-shell)
 * [Creating a Compartment](#creating-a-compartment)
 * [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
 * [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
@@ -29,8 +29,6 @@
 
 ![](images/oraclecode/youtube.png)
 
-
-<a name="Prerequisites"></a>
 ## Prerequisite Tools and Resources
 
 The PuTTY tool (http://www.putty.org) for generating SSH key pairs on the client machine that you will use to connect to any Linux server deployed by One-Click Provisioning.
@@ -95,6 +93,8 @@ JD Edwards EnterpriseOne Infrastructure Provisioning uses multiple methods of se
 
 **Warning:** Use caution if prompted to overwrite a previously generated SSH Key. If you overwrite a key previously used to connect to a prior Oracle Cloud Infrastructure instance, you may permanently lose access to (that is, the ability to log in to) any prior Oracle Cloud Infrastructure instance that used that key.
 
+
+<a name="what-do-you-need"></a>
 ### What Do You Need?
 
 Depending on your systems, you will need to create SSH key pairs either on a UNIX local system or on a Microsoft Windows local system.
@@ -111,7 +111,8 @@ Depending on your systems, you will need to create SSH key pairs either on a UNI
 
 * * * * *
 
-Generating Secure SHell (SSH) Key Pairs on Your Local System
+<a name="generating-secure-shell"></a>
+Generating Secure Shell (SSH) Key Pairs on Your Local System
 ------------------------------------------------------------------------------------------------------------------------------
 
 Secure SHell (SSH) provides an encrypted login method that is a more secure replacement for Telnet for logging on to the JD Edwards One-Click Provisioning Server on the Oracle Cloud Infrastructure. Before you create your Oracle Cloud Infrastructure instance, you must generate SSH key pairs and upload the SSH public keys to Oracle Cloud Infrastructure. These SSH public keys will be used for authentication when you log in to the instance. You must also create pairs of private keys, one pair for use by the One-Click Provisioning Server to create instances for JD Edwards EnterpriseOne servers and another pair to enable access to the instances. Below is a summary of the required SSH keys and their formats:
@@ -687,7 +688,7 @@ Use this procedure to run commands at the Linux operating system level to set up
 
     sudo reboot
 
-
+<a name="#accessing-the-terraform-staging-server-through-the-virtual-network-computing--vnc--viewer"></a>
 Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer
 -----------------------------------------------------------------------------------------
 
