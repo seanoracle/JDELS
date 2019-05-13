@@ -25,6 +25,7 @@
 * [Running Linux Commands to Set Up the Terraform Staging Server](#running-linux-commands-to-set-up-the-terraform-staging-server)
 * [Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer](#accessing-the-terraform-staging-server-through-the-virtual-network-computing--vnc--viewer)
 * [Copying Your Private SSH Keys to the Terraform Staging Server](#copying-your-private-ssh-keys-to-the-terraform-staging-server)
+- [Determining the OCID for the Infrastructure Provisioning User](#determining-the-ocid-for-the-infrastructure-provisioning-user)
 
 
 ![](images/oraclecode/youtube.png)
@@ -755,5 +756,121 @@ Use this procedure to copy your Private SSH keys to the Terraform Staging Server
 [Example FTP Program: WinSCP](https://docs.oracle.com/en/applications/jd-edwards/tutorial-copy-ssh-key-terraform/files/winscp_passphrase.txt)
 
 6.  Once your credentials are validated, use the FTP program to copy your local copy of the Private SSH Key that you created for the Terraform Staging Server to any location on that server. Make a note of that location as you will need to provide a path to the key in the JD Edwards EnterpriseOne Infrastructure Provisioning Console.
+
+
+Generating a Public Key for the Infrastructure Provisioning User
+----------------------------------------------------------------
+
+On any machine running Oracle Enterprise Linux, use this procedure to generate a public key (also called a PEM key or a Site Key) for the user that will be used by the JD Edwards EnterpriseOne Infrastructure Provisioning Console. This user can be the current user or any user that you want. If the user does not exist, use the standard procedure to create a desired user as described in Oracle Cloud Infrastructure documentation for **Create a User** in [Adding Users](https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Tasks/addingusers.htm?Highlight=creating%20users "Adding Users"). Also refer to Oracle Cloud Infrastructure documentation for additional details on: [Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm "Managing User Credentials").
+
+You must upload the key for the Infrastructure Provisioning User to Oracle Cloud Infrastructure as described in the following procedure. The Infrastructure Provisioning Console will prompt for a for a site key for a user. This console runs on the Terraform Staging Server. Therefore the Terraform Staging Server is a logical choice on which to perform this procedure. 
+
+1.  Run the following commands:
+
+    `cd /home/opc\
+    rm -rf ~/.oci\
+    mkdir ~/.oci
+
+    `
+2.  Generate the Oracle Cloud Infrastructure keys using the following commands to the Private Key (**oci_instance_private.pem**) and Public Key (**oci_instance_public.pem**) for the Infrastructure Provisioning User, where each of the below three (3) commands is a single contiguous command::
+
+    openssl genrsa -out ~/.oci/**oci_instance_private.pem** 2048
+
+    chmod go-rwx ~/.oci/**oci_instance_private.pem**
+
+    openssl rsa -pubout -in ~/.oci/**oci_instance_private.pem** -out ~/.oci/**oci_instance_public.pem**
+
+    **Note:** The key generated using these commands are intentionally set to not require a passphrase.
+
+3.  Run this command to output the content of the key:
+
+    `cat ~/.oci/**oci_instance_public.pem**`
+4.  Make a record of the output of the above command for use as input for a subsequent task in a following OBE in this Learning Path entitled: ***Using the Infrastructure Provisioning Console***.
+5.  The Infrastructure Provisioning Console will also prompt you for the path to this Private Key in PEM format.
+
+* * * * *
+
+![section 2](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_2.png)Adding the Public Key as an API Key for the Infrastructure Provisioning User
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Use this procedure to add the public key as an API key to Oracle Cloud Infrastructure for the user that will be running the Infrastructure Provisioning Console.
+
+1.  As the user for which you created a public key for this purpose in the preceding step entitled: ***Generating a Public Key for the Infrastructure Provisioning User***, log in to Oracle Cloud Infrastructure using the following URL for the tenancy in which you want to provisioning infrastructure using the JD Edwards EnterpriseOne Infrastructure Provisioning Console:
+
+    https://console.<your_region-ad>.oraclecloud.com/#/a/
+
+    For example:
+
+    https://console.us-ashburn-1.oraclecloud.com/#/a/
+
+2.  On the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper-left corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/identity_users.jpg)
+
+    [Navigation Menu - Identity > Users](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/identity_users.txt)
+
+3.  From the Navigation Menu, in the **Identity** section, click to select **Users**.
+4.  Click the link for the user which you have designated at the Infrastructure Provisioning User.
+
+![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/api_keys_add_public_key.jpg)
+
+[Navigation Menu - User Details > API Keys > Add Public Key](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/api_keys_add_public_key.txt)
+
+6.  In the **API Keys** section, click the **Add Public Key** button.
+7.  Copy and paste the public key value that you determined in the previous section of this OBE entitled: ***Generating a Public Key for the Infrastructure Provisioning User***.
+
+![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/add_public_key_dialog.jpg)
+
+[Add Public Key Dialog](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/add_public_key_dialog.txt)
+
+9.  Click the **Add** button.
+
+    **Note:** Ensure that you copy the complete contents of the key including the BEGIN CERTIFICATE and END CERTIFICATE text.
+
+* * * * *
+
+![section 3](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_3.png)Locating a Fingerprint for the Infrastructure Provisioning User
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+After you have added the public key to the Infrastructure Provisioning User, the system automatically generates a fingerprint for that user and displays it in the Oracle Cloud Infrastructure. To locate and copy this fingerprint:
+
+1.  Logged in as the Infrastructure Provisioning User, on the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper-left corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/identity_users.jpg)
+
+    [Navigation Menu - Identity > Users](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/identity_users.txt)
+
+2.  From the Navigation Menu, in the **Identity** section, click to select **Users**.
+3.  Click the link for the user which you have designated at the Infrastructure Provisioning User.
+4.  Under Resources, in API Keys, locate the Fingerprint field.
+
+![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/identity_users_fingerprint.jpg)
+
+[Navigation Menu - Identity > Users > Users Details > API Keys > Fingerprint](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/identity_users_fingerprint.txt)
+
+6.  Make a record of the fingerprint for use as input for a subsequent task in a following OBE in this Learning Path entitled: ***Using the Infrastructure Provisioning Console***.
+
+* * * * *
+
+Determining the OCID for the Infrastructure Provisioning User
+--------------------------------------------------------------
+
+Use this procedure to determine the OCID for the Infrastructure Provisioning User:
+
+1.  Logged in as the Infrastructure Provisioning User, navigate on the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper-left corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/identity_users.jpg)
+
+    [Navigation Menu - Identity > Users](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/identity_users.txt)
+
+2.  From the Navigation Menu, in the **Identity** section, click to select **Users**.
+3.  Click the link for the user which you have designated at the Infrastructure Provisioning User.
+
+![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/user_ocid.jpg)
+
+[Navigation Menu - Identity > Users](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/files/user_ocid.txt)
+
+5.  Click the Show link to display the OCID of the selected user.
+6.  Make a record of the OCID for use as input for a subsequent task in a following OBE in this Learning Path entitled: ***Using the Infrastructure Provisioning Console***.
 
 
