@@ -6,24 +6,25 @@
 **Welcome to the JD Edwards Lift and Shift Workshop and JD Edwards General User Guide. This workshop will walk you through the process of how to lift and shift your current JD Edwards environment into the cloud.** 
 
 ## Table of Contents
-- [Prerequisite Tools and Resources](#prerequisite-tools-and-resources)
-- [Understanding Port Restrictions](#understanding-port-restrictions)
-  * [One-Click Provisioning Console for JD Edwards](#one-click-provisioning-console-for-jd-edwards)
-  * [All Internet Browsers](#all-internet-browsers)
-  * [Google Chrome and Mozilla Firefox Browsers](#google-chrome-and-mozilla-firefox-browsers)
-  * [Acquire an Oracle Cloud Trial or Workshop Account](#acquire-an-oracle-cloud-trial-or-workshop-account)
-- [Before You Begin](#before-you-begin)
-  * [Background](#background)
-  * [What Do You Need?](#what-do-you-need-)
-- [Creating a Compartment](#creating-a-compartment)
-- [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
-- [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
-- [Creating Additional Block Volumes for a Linux Instance](#creating-additional-block-volumes-for-a-linux-instance)
-- [Attaching the Block Volumes](#attaching-the-block-volumes)
-- [Run iSCSI Commands to Complete the Attachment and Mount of the Block Volume](#run-iscsi-commands-to-complete-the-attachment-and-mount-of-the-block-volume)
-- [Running Linux Commands to Set Up the Terraform Staging Server](#running-linux-commands-to-set-up-the-terraform-staging-server)
-- [Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer](#accessing-the-terraform-staging-server-through-the-virtual-network-computing--vnc--viewer)
-- [Copying Your Private SSH Keys to the Terraform Staging Server](#copying-your-private-ssh-keys-to-the-terraform-staging-server)
+* [Prerequisite Tools and Resources](#prerequisite-tools-and-resources)
+* [Understanding Port Restrictions](#understanding-port-restrictions)
+  + [One-Click Provisioning Console for JD Edwards](#one-click-provisioning-console-for-jd-edwards)
+  + [All Internet Browsers](#all-internet-browsers)
+  + [Google Chrome and Mozilla Firefox Browsers](#google-chrome-and-mozilla-firefox-browsers)
+  + [Acquire an Oracle Cloud Trial or Workshop Account](#acquire-an-oracle-cloud-trial-or-workshop-account)
+* [Before You Begin](#before-you-begin)
+  + [Background](#background)
+  + [What Do You Need?](#what-do-you-need-)
+* [Generating Secure SHell (SSH) Key Pairs on Your Local System](#generating-secure-shell--ssh--key-pairs-on-your-local-system)
+* [Creating a Compartment](#creating-a-compartment)
+* [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
+* [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
+* [Creating Additional Block Volumes for a Linux Instance](#creating-additional-block-volumes-for-a-linux-instance)
+* [Attaching the Block Volumes](#attaching-the-block-volumes)
+* [Run iSCSI Commands to Complete the Attachment and Mount of the Block Volume](#run-iscsi-commands-to-complete-the-attachment-and-mount-of-the-block-volume)
+* [Running Linux Commands to Set Up the Terraform Staging Server](#running-linux-commands-to-set-up-the-terraform-staging-server)
+* [Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer](#accessing-the-terraform-staging-server-through-the-virtual-network-computing--vnc--viewer)
+* [Copying Your Private SSH Keys to the Terraform Staging Server](#copying-your-private-ssh-keys-to-the-terraform-staging-server)
 
 
 ![](images/oraclecode/youtube.png)
@@ -110,9 +111,8 @@ Depending on your systems, you will need to create SSH key pairs either on a UNI
 
 * * * * *
 
-<a name="SSH"></a>
-![section 1](https://docs.oracle.com/en/applications/jd-edwards/tutorial-generate-ssh-keypair_terra/img/32_1.png) Generating Secure SHell (SSH) Key Pairs on Your Local System
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Generating Secure SHell (SSH) Key Pairs on Your Local System
+------------------------------------------------------------------------------------------------------------------------------
 
 Secure SHell (SSH) provides an encrypted login method that is a more secure replacement for Telnet for logging on to the JD Edwards One-Click Provisioning Server on the Oracle Cloud Infrastructure. Before you create your Oracle Cloud Infrastructure instance, you must generate SSH key pairs and upload the SSH public keys to Oracle Cloud Infrastructure. These SSH public keys will be used for authentication when you log in to the instance. You must also create pairs of private keys, one pair for use by the One-Click Provisioning Server to create instances for JD Edwards EnterpriseOne servers and another pair to enable access to the instances. Below is a summary of the required SSH keys and their formats:
 
