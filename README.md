@@ -19,6 +19,11 @@
   * [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
   * [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
   * [Creating Additional Block Volumes for a Linux Instance](#creating-additional-block-volumes-for-a-linux-instance)
+  * [Attaching the Block Volumes](#attaching-the-block-volumes)
+  * [Run iSCSI Commands to Complete the Attachment and Mount of the Block Volume](#run-iscsi-commands-to-complete-the-attachment-and-mount-of-the-block-volume)
+  * [Running Linux Commands to Set Up the Terraform Staging Server](#running-linux-commands-to-set-up-the-terraform-staging-server)
+  * [Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer](#accessing-the-terraform-staging-server-through-the-virtual-network-computing--vnc--viewer)
+  * [Copying Your Private SSH Keys to the Terraform Staging Server](#copying-your-private-ssh-keys-to-the-terraform-staging-server)
 
 
 ![](images/oraclecode/youtube.png)
@@ -469,4 +474,285 @@ Use this procedure to create additional storage to a Linux instance using Block 
         [Create Block Volume Storage for the Provisioning Server - Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-additional-block-volume/files/create_block_storage_details_prov.txt)
 
 6.  Click the **Create Block Volume** button.
+
+
+Attaching the Block Volumes
+---------------------------
+
+To attach a Block Volume to an instance:
+
+1.  On the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper left hand corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-attach-block-volume/img/using_the_console_create_instance.jpg)
+
+    [Navigation Menu - Compute > Instances](https://docs.oracle.com/en/applications/jd-edwards/tutorial-attach-block-volume/files/using_the_console_attach_block_volumes.txt)
+
+2.  From the Navigation Menu, in the **Compute** section, click to select **Instances**.
+3.  For an existing instance to which you want to attach previously created block volume storage, click the link for that instance.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-attach-block-volume/img/using_the_console_attach_block_volumes.jpg)
+
+    [Navigation Menu - Compute > Instances > Action Item Ellipses > Attach Block Volumes](https://docs.oracle.com/en/applications/jd-edwards/tutorial-attach-block-volume/files/using_the_console_attach_block_volumes.txt)
+
+4.  On Compute > Instances > Instance Details, click the **Attach Block Volume** button.
+
+5.  On Attach Block Volume, complete the following fields:
+
+    -   *Choose how you want to attach your block volume.*
+
+        Because attachment options are based on the version of the Linux OS you are running, currently JD Edwards EnterpriseOne One-Click deployments only support the **iSCSI** attachment type.  For additional details, refer to [Volume Attachment Types](https://docs.us-phoenix-1.oraclecloud.com/Content/Block/Concepts/overview.htm#attachtype "Volume Attachment Types").
+    -   *BLOCK VOLUME COMPARTMENT*\
+        The currently selected Compartment is chosen by default. In this document, the Compartment is named JDEE1.
+
+        **Note:** Although you can choose to create Block Volume in other Compartments, for performance reasons you should always create Block Volumes in the same Compartment as all other instances for use by JD Edwards EnterpriseOne.
+    -   *BLOCK VOLUME*\
+        Use the pulldown to select the name of the Block Volume that you previously created specifically for use by a JD Edwards EnterpriseOne server.
+    -   *REQUIRE CHAP CREDENTIALS*\
+        Ensure the check box labelled **REQUIRE CHAP CREDENTIALS** is not selected.
+    -   *ACCESS*\
+        Select the radio button to enable **READ/WRITE** access to the block storage volume.
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-attach-block-volume/img/attach_block_storage.jpg)
+
+    [Attach Block Volume Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-attach-block-volume/files/attach_block_storage.txt)
+
+6.  Click the **Attach** button.
+
+**Important:** Before you can proceed to the next step, you must wait until the status of the Block Volume changes to **Attached**.
+
+
+Run iSCSI Commands to Complete the Attachment and Mount of the Block Volume
+---------------------------------------------------------------------------
+
+Use this procedure to run the iSCSI commands required to complete the attachment and mount of the Block Volume.
+
+1.  Before you can proceed to the next step, you must wait until the status of the Block Volume you previously created changes to **Attached**.
+2.  Once the status is Attached, on Storage > Block Volumes > Block Volume Details, click the tab for **ISCSI Commands and Information**.
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/img/ISCSI_commands.jpg)
+
+    [ISCSI Commands & Information](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/files/ISCSI_commands.txt)
+
+3.  On ISCSI Commands and Information, ensure you follow the initial instructions presented on this screen to use OS tools to edit your /etc/fstab volumet o have the _netdev and nofail options from the OS. Otherwise, failure to run such commands will cause instance boot failure. The required steps are fully documented in subsequent steps of this procedure.
+4.  On ISCSI Commands and Information, in the section entitled: **ATTACH COMMANDS**, copy the commands and paste them into your Linux session. You can run them in a batch process or one at a time if you want to confirm that no errors occur and that each command completes successfully.
+5.  As the **opc** user, log in to the Linux instance that you created for One-Click Provisioning.
+6.  Run this command to get a list of available mountable iSCSI devices that were made available when you ran the sudo iSCSI commands:
+
+    sudo fdisk -l
+
+    The returned results for the connected volume will be similar to this:
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/img/list_of_devices.jpg)
+
+    [ISCSI Commands & Information](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/files/list_of_devices.txt)
+
+7.  To begin the process to mount the Block Volume, using the value returned from the fdisk -1 sudo fdisk -l command (/dev/sdb), run this command to get a complete list of devices:
+
+    sudo ls -l /dev/sd*
+
+    The complete list of devices within the /dev/sd* structure will be similar to this:
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/img/list_of_devices_full.jpg)
+
+    [ISCSI Commands & Information](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/files/list_of_devices_full.txt)
+
+    In the returned results, the device on which you will create the mount point for the Block Volume defined for the Linux server is /dev/sdb.
+8.  Create the file system within the /dev/sdb structure using this command:
+
+    sudo mkfs -t ext3 /dev/sdb
+
+    The system prompts with the following message, to which you should answer yes:
+
+    /dev/sdb is entire device, not just one partition!\
+    Proceed anyway? (y,n) y
+
+    As the command executes, the results will be similar to this:
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/img/mkfs_results.jpg)
+
+    [ISCSI Commands & Information](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/files/mkfs_results.txt)
+
+9.  Create /u01 and mount the storage by using the following commands:
+
+    sudo mkdir /u01\
+    sudo mount /dev/sdb /u01
+10. Use this command to verify the volume is mounted on /u01:
+
+    df -h
+
+    The returned results should be similar to this:
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/img/mount_results.jpg)
+
+    [Example: /u01 Created and Mounted](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/files/mount_results.txt)
+
+11. Edit the /etc/fstab file by using the following command:
+
+    sudo vi /etc/fstab
+12. Add the following line to the /etc/fstab file:
+
+    /dev/sdb /u01 ext3 defaults,_netdev,noatime 0 0
+
+    The edited file should look like this:
+
+    ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/img/fstab_file.jpg)
+
+    [ISCSI Commands & Information](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-iscsi-command/files/fstab_file.txt)
+
+    **Important:** This step is mandatory. If you omit this step your Block Volume attachment will not be persistent and so will not remain attached after a reboot.
+
+13. At this point, the Block Volume is attached, connected, and mounted on /u01 for use by your Linux instance. Repeat this process for each Block Volume that you attached. For the initial release of One-Click Provisioning for Oracle Cloud Infrastructure, Block Volumes are required for the Provisioning Server, Enterprise Server, and for the Database Server (if implemented; other possibility is DB Systems).
+
+
+Running Linux Commands to Set Up the Terraform Staging Server
+-------------------------------------------------------------
+
+Use this procedure to run commands at the Linux operating system level to set up the Terraform Staging Server.
+
+**Important:** The user running these commands should be aware of Linux syntax rules. For example, all commands should be lower case as shown in this guide. Further, the user should be aware of Linux system administration methods to ensure commands have executed as expected.
+
+1.  Enable the graphical user interface (GUI) on the Terraform Staging Server by running these commands, where each of the below four (4) commands is a single contiguous command:
+
+    sudo yum update grub2-common
+
+    sudo yum groupinstall "Server with GUI" -y
+
+    sudo ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
+
+    sudo reboot
+
+    sudo yum install mesa-libGL -y
+
+2.  Install Terraform as a yum package using this command:
+
+    sudo yum install -y terraform
+
+4.  In order to enable the functionality of Terraform for JD Edwards EnterpriseOne One-Click Provisioning on Oracle Cloud Infrastructure, you must install a Virtual Network Computing (VNC) Server on the Terraform Staging Server. For example, use this command to install the open source application TigerVNC:
+
+    sudo yum install tigervnc-server -y
+
+5.  Use this command to set the VNC Server password:
+
+    vncpasswd
+
+    This commands prompts you to enter and confirm a password for the VNC Server. This password is required in order to connect to the VNC Server.
+
+    Refer to this link for details on vncpasswd options: <http://www.tightvnc.com/vncpasswd.1.php>.
+
+6.  Copy the service for the VNC Server to the appropriate location using this command:
+
+    sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@\:1.service
+
+7.  Change the user name on the Terraform Staging Server to **opc** by editing this file:
+
+    sudo vi /etc/systemd/system/vncserver@\:1.service
+
+    Within the above file, change two (2) occurrences of **<USER>** (including the enclosing < and > symbols) to **opc** (no enclosing symbols).
+
+8.  Enable and start the VNC server using these commands:
+
+    sudo systemctl daemon-reload\
+    sudo systemctl enable vncserver@\:1.service\
+    sudo systemctl start vncserver@\:1.service
+
+9.  Disable SE Linux by editing the config file using this command:
+
+    sudo vi /etc/selinux/config
+
+    Within the above file, ensure the following setting and value exists:
+
+    set SELINUX=disabled
+
+10. Add VNC server listen port in the firewall of the Terraform Staging Server using these commands:
+
+    sudo firewall-cmd --zone=public --add-service=vnc-server\
+    sudo firewall-cmd --zone=public --add-service=vnc-server --permanent\
+    sudo firewall-cmd --zone=public --add-port=5901/tcp\
+    sudo firewall-cmd --zone=public --add-port=5901/tcp --permanent
+
+11. You must reset the password for the **opc** user in order to unlock the screen saver installed on the Terraform Staging Machine by using this command:
+
+    sudo passwd opc
+
+    This command prompts you to enter and confirm a password for the **opc** user. This password is required in order to connect to the VNC Server.
+
+    **Note:** A new password is tested for complexity. As a general guideline, passwords should consist of a minimum of 8 characters including one or more from each of following sets:
+
+    -   Lower case alphabetics
+    -   Upper case alphabetics
+    -   Digits 0 thru 9
+    -   Punctuation marks
+
+12. Restart the Terraform Staging Machine by issue this command:
+
+    sudo reboot
+
+
+Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer
+-----------------------------------------------------------------------------------------
+
+In order to use the JD Edwards EnterpriseOne Infrastructure Provisioning Console, you must be able to access the Terraform Staging Server using the VNC Server that you previously installed. In this Learning Path, the VNC Server that was installed is the open source application TigerVNC. In this case, you must use TigerVNC Viewer to connect to that server on the Terraform Staging Server.
+
+1.  Start the VNC Viewer to connect to the VNC Server. For example, for TigerVNC, the following dialog is displayed:
+
+![PuTTY Configuration](https://docs.oracle.com/en/applications/jd-edwards/tutorial-access-terraform-staging-server-vnc/img/tigervcn_viewer_dialog.jpg)
+
+[Example TigerVNC Viewer - Connection Dialog](https://docs.oracle.com/en/applications/jd-edwards/tutorial-access-terraform-staging-server-vnc/files/tigervcn_viewer_dialog.txt)
+
+3.  Enter the IP address and port of your Terraform Staging Server.
+4.  Click the **Connect** button.
+
+![PuTTY Configuration](https://docs.oracle.com/en/applications/jd-edwards/tutorial-access-terraform-staging-server-vnc/img/tigervcn_viewer_auth.jpg)
+
+[Example TigerVNC Viewer - Connection Dialog](https://docs.oracle.com/en/applications/jd-edwards/tutorial-access-terraform-staging-server-vnc/files/tigervcn_viewer_auth.txt)
+
+6.  On VNC Authentication, enter the VNC Server password you created when you installed it on the Terraform Staging Server.
+7.  Upon successful connection, a splash screen is displayed showing the current date and time as reported by the VNC Server.
+8.  Press any alphanumeric key to display the screen for entering credentials for the Oracle Public Cloud User.
+
+![PuTTY Configuration](https://docs.oracle.com/en/applications/jd-edwards/tutorial-access-terraform-staging-server-vnc/img/tigervcn_viewer_credentials.jpg)
+
+[Example TigerVNC Viewer - opc User Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-access-terraform-staging-server-vnc/files/tigervcn_viewer_credentials.txt)
+
+10. Enter the password for the opc user that you previously defined and click the **Unlock** key.
+
+11. Upon successful entry of the password, you are are successfully connected to the VNC Server on the Terraform Staging Machine.
+
+Copying Your Private SSH Keys to the Terraform Staging Server
+-------------------------------------------------------------
+
+Use this procedure to copy your Private SSH keys to the Terraform Staging Server. These should be the keys that you created for accessing all hosts with the exception the Bastion server, for which best practice is to use a separate key pair.
+
+**Tip:** If you followed the recommendation in the referenced section above, you have given these files a significant name such as **Bastion.openssh** and **OCI_Instance.openssh**.
+
+1.  Use a FTP program to copy your local Private SSH Key to the Terraform Staging Server. For example, if you are copying the SSH key from a local Windows machine, you might use WinSCP which is free and open source.  In this example, the WinSCP connection Window looks like this:
+
+![PuTTY Configuration](https://docs.oracle.com/en/applications/jd-edwards/tutorial-copy-ssh-key-terraform/img/winscp_connection.jpg)
+
+[Example FTP Program: WinSCP](https://docs.oracle.com/en/applications/jd-edwards/tutorial-copy-ssh-key-terraform/files/winscp_connection.txt)
+
+3.  In your FTP program, provide values for:
+
+    -   *Host name*
+
+        Enter the Private IP address of the Linux instance you created in Oracle Cloud Infrastructure for the Terraform Staging Server.
+    -   *Port*
+
+        Enter the value **22**.
+    -   *User name*
+
+        Enter the value **opc**.
+    -   *Password*
+
+        At this point you cannot enter a password in the FTP program to complete the connection.  You must wait until prompted to enter a Private Key password at described below.
+    -   In this example FTP program, click the **Login** button.
+
+4.  Once the FTP establishes a connection to the Terraform Staging Server, you are prompted to enter the passphrase for the private SSH key that you previously uploaded to the Terraform Staging Server.
+
+![PuTTY Configuration](https://docs.oracle.com/en/applications/jd-edwards/tutorial-copy-ssh-key-terraform/img/winscp_passphrase.jpg)
+
+[Example FTP Program: WinSCP](https://docs.oracle.com/en/applications/jd-edwards/tutorial-copy-ssh-key-terraform/files/winscp_passphrase.txt)
+
+6.  Once your credentials are validated, use the FTP program to copy your local copy of the Private SSH Key that you created for the Terraform Staging Server to any location on that server. Make a note of that location as you will need to provide a path to the key in the JD Edwards EnterpriseOne Infrastructure Provisioning Console.
+
 
