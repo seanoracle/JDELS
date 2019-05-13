@@ -28,12 +28,10 @@
 - [Setting Up the Terraform Staging Server: Configuring a User for Infrastructure Provisioning](#setting-up-the-terraform-staging-server--configuring-a-user-for-infrastructure-provisioning)
   * [Background](#background)
   * [What Do You Need?](#what-do-you-need-)
-  - Generating a Public Key for the Infrastructure Provisioning User](#--section-1--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-1png-generating-a-public-key-for-the-infrastructure-provisioning-user)
-  - Adding the Public Key as an API Key for the Infrastructure Provisioning User](#--section-2--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-2png-adding-the-public-key-as-an-api-key-for-the-infrastructure-provisioning-user)
-  - Locating a Fingerprint for the Infrastructure Provisioning User](#--section-3--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-3png-locating-a-fingerprint-for-the-infrastructure-provisioning-user)
-  - Determining the OCID for the Infrastructure Provisioning User](#--section-4--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-4png-determining-the-ocid-for-the-infrastructure-provisioning-user)
-
-
+  - [Generating a Public Key for the Infrastructure Provisioning User](#--section-1--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-1png-generating-a-public-key-for-the-infrastructure-provisioning-user)
+  - [Adding the Public Key as an API Key for the Infrastructure Provisioning User](#--section-2--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-2png-adding-the-public-key-as-an-api-key-for-the-infrastructure-provisioning-user)
+  - [Locating a Fingerprint for the Infrastructure Provisioning User](#--section-3--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-3png-locating-a-fingerprint-for-the-infrastructure-provisioning-user)
+  - [Determining the OCID for the Infrastructure Provisioning User](#--section-4--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-4png-determining-the-ocid-for-the-infrastructure-provisioning-user)
 
 
 ![](images/oraclecode/youtube.png)
