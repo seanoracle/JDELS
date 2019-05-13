@@ -30,6 +30,8 @@
   - [Adding the Public Key as an API Key for the Infrastructure Provisioning User](#adding-the-public-key-as-an-api-key-for-the-infrastructure-provisioning-user)
   - [Locating a Fingerprint for the Infrastructure Provisioning User](#locating-a-fingerprint-for-the-infrastructure-provisioning-user)
   - [Determining the OCID for the Infrastructure Provisioning User](#determining-the-ocid-for-the-infrastructure-provisioning-user)
+* [Generating CA Certificates](#generating-ca-certificates)
+  
 
 
 ![](images/oraclecode/youtube.png)
@@ -877,3 +879,113 @@ Use this procedure to determine the OCID for the Infrastructure Provisioning Use
 6.  Make a record of the OCID for use as input for a subsequent task in a following OBE in this Learning Path entitled: ***Using the Infrastructure Provisioning Console***.
 
 
+Generating CA Certificates
+--------------------------
+
+On any machine running Oracle Enterprise Linux, use this procedure to generate CA root and device certificates. You will be prompted for these certificates by the Infrastructure Provisioning Console, which runs on the Terraform Staging Server. Therefore the Terraform Staging Server is a logical choice on which to perform this procedure.
+
+1.  Generate a **rootCA private key** using this command:
+
+    openssl genrsa -out rootCA.key 2048 -days 365
+
+2.  Generate **rootCA public key** using this command:
+
+    openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 365 -out rootCA.pem -subj "/**C=<country>/ST=<state>/L=<location>/O=<company>**/OU=<organization unit>/CN=localhost"
+
+    where **C=<country>** is the country where you will be submitting the CA Certificates Service Request (CSR), and
+
+    where **ST=<state>** is the state within the country you specified in C=, and
+
+    where **L=<location>** is the location or city within the state, and
+
+    where **O=<organization>** is the organization for which the CSR will be issued, and
+
+    where **OU = <organization unit>** is the originzational unit of the organization
+
+    For example, if the CSR is being requested for Oracle Corporation, for the JD Edwards EnterpriseOne division, in Denver, Colorado, United States, the command would be:
+
+    openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 365 -out rootCA.pem -subj "/C=US/ST=CO/L=Denver/O=Oracle Corporation/OU=EnterpriseOne/CN=localhost"
+
+3.  Create a **configuration file named device-csr.conf** that includes these sections and settings:
+
+    [req]\
+    distinguished_name = req_distinguished_name\
+    req_extensions = v3_req\
+    prompt = no
+
+    [req_distinguished_name]\
+    C = <country>\
+    ST = <state>\
+    L = <location>\
+    O = <organization>\
+    OU = <organization unit>\
+    CN = localhost
+
+    [v3_req]\
+    keyUsage = keyEncipherment, dataEncipherment\
+    extendedKeyUsage = serverAuth\
+    subjectAltName = @alt_names\
+    [alt_names]\
+    DNS.1 = localhost\
+    DNS.2 = <logic Enterprise Server>\
+    DNS.3 = <batch Enterprise Server>\
+    DNS.4 = <HTML web server>
+
+    where **C=<country>** is the country where you will be submitting the CA Certificates Service Request (CSR), and
+
+    where **ST=<state>** is the state within the country you specified in C=, and
+
+    where **L=<location>** is the location or city within the state, and
+
+    where **O=<organization>** is the organization for which the CSR will be issued, and
+
+    where **OU = <organization unit>** is the unit of the organization, and
+
+    where **<logic Enterprise Server>** is the name of your JD Edwards Enterprise Server running application logic, which must be limited to 15 alphanumeric characters, and
+
+    where **<batch Enterprise Server>** is the name of your JD Edwards Enterprise Server running UBE batch processes, which must be limited to 15 alphanumeric characters, and
+
+    where **<HMTL Web Server>** is the name of your JD Edwards Web Server running HTML application logic, which must be limited to 15 alphanumeric characters
+
+    For example, a properly configured  device-csr.conf file might look like this:
+
+    [req]\
+    distinguished_name = req_distinguished_name\
+    req_extensions = v3_req\
+    prompt = no
+
+    [req_distinguished_name]\
+    C = US\
+    ST = CO\
+    L = Denver\
+    O = Oracle Corporation\
+    OU = EnterpriseOne\
+    CN = localhost
+
+    [v3_req]\
+    keyUsage = keyEncipherment, dataEncipherment\
+    extendedKeyUsage = serverAuth\
+    subjectAltName = @alt_names\
+    [alt_names]\
+    DNS.1 = localhost\
+    DNS.2 = logiclb\
+    DNS.3 = batchlb\
+    DNS.4 = weblb
+
+4.  Generate a **device key** using this command:
+
+    openssl genrsa -out device.key 2048 -days 365
+
+5.  Generate a **device CSR** using this command:
+
+    openssl req -new -key device.key -out device.csr -subj "/C=<country>/ST=<state>/L=<location>/O=<organization>/OU=<organization_unit>/CN=localhost"
+
+    For example:
+
+    openssl req -new -key device.key -out device.csr -subj "/C=US/ST=CO/L=Denver/O=Oracle Corporation/OU=EnterpriseOne/CN=localhost"
+
+6.  Generate a **device certificate** using this command, where you have created and configured the input file device-csr.conf file as described in the previous step in this procedure:
+
+    openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -extfile device-csr.conf -extensions v3_req
+    
+    
