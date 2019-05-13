@@ -17,6 +17,7 @@
     + [What Do You Need?](#what-do-you-need-)
   * [Creating a Compartment](#creating-a-compartment)
   * [Creating a Virtual Cloud Network](#creating-a-virtual-cloud-network)
+  * [Creating a Linux Instance for the Terraform Staging Server](#creating-a-linux-instance-for-the-terraform-staging-server)
 
 
 ![](images/oraclecode/youtube.png)
@@ -338,3 +339,92 @@ To create a VCN on Oracle Cloud Infrastructure:
 ![Create Virtual Cloud Network](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-virtual-cloud-network-terra/img/vcn_egress_rules.jpg)
 
 [Example: Egress Rules](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-virtual-cloud-network-terra/files/vcn_egress_rules.txt)
+
+Creating a Linux Instance for the Terraform Staging Server
+----------------------------------------------------------
+
+Use this procedure to create a Linux VM instance for the Terraform Staging Server. You are ***not*** required to manually create any other Linux instances because all required instances will be created by the Terraform scripts.
+
+1.  On the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper-left corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/img/using_the_console_create_instance.jpg)
+
+    [Navigation Menu - Compute > Instances](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/files/using_the_console_vms.txt)
+
+2.  From the Navigation Menu, in the **Compute** section, click to select **Instances**.
+3.  In the **List Scope** section in the left panel, use the **COMPARTMENT** drop-down to select the Compartment you previously created, and also use the **STATE** drop-down to select **Available**.
+4.  Click the **Create Instance** button. The following steps describe the fields on these major sections of the Create Instance form:
+
+-   **Instance**
+-   **Networking\
+    **
+
+![Create Instance](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/img/create_instance.jpg)
+
+[Create Instance](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/files/create_instance.txt)
+
+7.  On the Create Instance details page, in the **Instance** section, complete these fields:
+
+-   *NAME*\
+    Enter the display name of the instance. This will be the hostname of the Terraform Staging Server.
+
+    **Important Special Naming Restrictions.** Ensure that the Host Name of a Linux server contains only alphanumeric values. For all servers, you cannot use special characters in the name, such as an underscore "_".
+
+-   *AVAILABILITY DOMAIN*\
+    Use the drop-down to select the domain where you want to provision your instance.
+-   BOOT VOLUME\
+    Ensure this option is selected: **ORACLE-PROVIDED OS IMAGE**
+-   *IMAGE OPERATING SYSTEM*\
+    JD Edwards One-Click Provisioning for Oracle Cloud Infrastructure is certified to run on a specific version of Oracle Linux 7.5, which is **Oracle-Linux-7.5-2018.10.16-0**. Refer to this link for the most current list of regions and their availability for Oracle-Provided OCID Images:
+
+    [Oracle-Linux-7.5-2018.10.16-0](https://docs.cloud.oracle.com/iaas/images/image/96b34fe9-627c-45a0-bcdf-d722ea5d5e4b/ "Oracle-Linux-7.5-2018.10.16-0")
+
+    If this image is not available in the default list shown under the **Platform Images** tab, click the tab for **Image OCID** and enter an image OCID for the required image that corresponds to your region as specified below:
+
+    **Region eu-frankfurt-1**\
+    ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma
+
+    **Region uk-london-1**\
+    ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa
+
+    **Region us-ashburn-1**\
+    ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda
+
+    **Region us-phoenix-1**\
+    ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa
+
+-   *SHAPE TYPE*\
+    Click this option: **VIRTUAL MACHINE**. This is the only shape type supported by One-Click Provisioning.
+
+-   *SHAPE*\
+    Use the drop-down to select a shape for the instance. The syntax of the supported shape values is VM.Standard2.X, where 2 is the number of CPUs and X is the number of core processors (OCPUs), and where the shape VM.Standard2.8 is excluded (not supported). The recommended value for the Terraform Staging Server is: **VM.Standard2.1 (1 OCPU, 15 GB RAM).**
+-   *IMAGE VERSION*\
+    Unless otherwise instructed by Oracle Customer Support, you should select the latest image version, which is identified by **(latest)** as the suffix to the image version identifier.
+-   *CUSTOM BOOT VOLUME SIZE*\
+    You can leave this check box unchecked.
+
+-   *SSH KEYS*\
+    Click the **CHOOSE SSH KEY FILES** option and browse for your SSH public key that you created as a prerequisite step.
+
+    **Tip:** If you followed the recommendation in the referenced section above, you have given this file a significant name such as **OCI_Instance.pub**.
+-   For JD Edwards One-Click Provisioning, there is no requirement to change any settings under Show Advanced Options.
+
+![Create Instance](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/img/create_instance_instance.jpg)
+
+[Create Instance - Part 1 - Instance Section](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/files/create_instance_instance.txt)
+
+10. On the Create Instance details page, in the **Networking** section, complete these fields:
+
+-   VIRTUAL CLOUD NETWORK\
+    Use the drop-down to select the VCN that you previously created for One-Click Provisioning. For example, in this document, the name of the VCN is **jde_vcn**.
+-   SUBNET\
+    Use the drop-down to select a subnet.  Only subnets associated with the selected Availability Domain will be listed. For example, if you have selected the **IAUF:PHX-AD1** availability domain, then only subnets created for **AD1** will be displayed in the drop-down list.
+-   Click the check box to enable: **ASSIGN PUBLIC IP ADDRESS**
+-   For JD Edwards One-Click Provisioning, there is no requirement to change any settings under Show Advanced Options.
+
+![Create Instance - Networking](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/img/create_instance_networking.jpg)
+
+[Create Instance - Part 2 - Networking Section](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create_linux_instance_terra/files/create_instance_networking.txt)
+
+13. If all required fields are completed with valid values, the **Create Instance** button is enabled and you can click it to create the defined instance.
+
