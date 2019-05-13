@@ -6,8 +6,17 @@
 **Welcome to the JD Edwards Lift and Shift Workshop and JD Edwards General User Guide. This workshop will walk you through the process of how to lift and shift your current JD Edwards environment into the cloud.** 
 
 ## Table of Contents
-1. [ Prerequisites. ](#Prerequisites)
-2. [ Generating Secure SHell (SSH) Key Pairs on Your Local System. ](#SSH)
+  * [Prerequisite Tools and Resources](#prerequisite-tools-and-resources)
+  * [Understanding Port Restrictions](#understanding-port-restrictions)
+    + [One-Click Provisioning Console for JD Edwards](#one-click-provisioning-console-for-jd-edwards)
+    + [All Internet Browsers](#all-internet-browsers)
+    + [Google Chrome and Mozilla Firefox Browsers](#google-chrome-and-mozilla-firefox-browsers)
+    + [Acquire an Oracle Cloud Trial or Workshop Account](#acquire-an-oracle-cloud-trial-or-workshop-account)
+  * [Before You Begin](#before-you-begin)
+    + [Background](#background)
+    + [What Do You Need?](#what-do-you-need-)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 ![](images/oraclecode/youtube.png)
 
