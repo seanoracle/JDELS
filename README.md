@@ -25,7 +25,15 @@
 * [Running Linux Commands to Set Up the Terraform Staging Server](#running-linux-commands-to-set-up-the-terraform-staging-server)
 * [Accessing the Terraform Staging Server Through the Virtual Network Computing (VNC) Viewer](#accessing-the-terraform-staging-server-through-the-virtual-network-computing--vnc--viewer)
 * [Copying Your Private SSH Keys to the Terraform Staging Server](#copying-your-private-ssh-keys-to-the-terraform-staging-server)
-- [Determining the OCID for the Infrastructure Provisioning User](#determining-the-ocid-for-the-infrastructure-provisioning-user)
+- [Setting Up the Terraform Staging Server: Configuring a User for Infrastructure Provisioning](#setting-up-the-terraform-staging-server--configuring-a-user-for-infrastructure-provisioning)
+  * [Background](#background)
+  * [What Do You Need?](#what-do-you-need-)
+  - [![section 1](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_1.png)Generating a Public Key for the Infrastructure Provisioning User](#--section-1--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-1png-generating-a-public-key-for-the-infrastructure-provisioning-user)
+  - [![section 2](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_2.png)Adding the Public Key as an API Key for the Infrastructure Provisioning User](#--section-2--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-2png-adding-the-public-key-as-an-api-key-for-the-infrastructure-provisioning-user)
+  - [![section 3](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_3.png)Locating a Fingerprint for the Infrastructure Provisioning User](#--section-3--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-3png-locating-a-fingerprint-for-the-infrastructure-provisioning-user)
+  - [![section 4](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_4.png)Determining the OCID for the Infrastructure Provisioning User](#--section-4--https---docsoraclecom-en-applications-jd-edwards-tutorial-config-user-infra-provisioning-img-32-4png-determining-the-ocid-for-the-infrastructure-provisioning-user)
+
+
 
 
 ![](images/oraclecode/youtube.png)
@@ -756,10 +764,33 @@ Use this procedure to copy your Private SSH keys to the Terraform Staging Server
 [Example FTP Program: WinSCP](https://docs.oracle.com/en/applications/jd-edwards/tutorial-copy-ssh-key-terraform/files/winscp_passphrase.txt)
 
 6.  Once your credentials are validated, use the FTP program to copy your local copy of the Private SSH Key that you created for the Terraform Staging Server to any location on that server. Make a note of that location as you will need to provide a path to the key in the JD Edwards EnterpriseOne Infrastructure Provisioning Console.
+* * * * *
 
 
-Generating a Public Key for the Infrastructure Provisioning User
-----------------------------------------------------------------
+Setting Up the Terraform Staging Server: Configuring a User for Infrastructure Provisioning
+-------------------------------------------------------------------------------------------
+
+
+### Background
+
+JD Edwards EnterpriseOne Infrastructure Provisioning uses multiple methods of securely connection to Oracle Cloud Infrastructure, where "key pairs" means a Public Key and a Private Key:
+
+1.  **Infrastructure Provisioning User Key Pair**. Instead of SSH key format, this key pair must be generated in Privacy Enhanced Mail (PEM) container format. The Public key of this key pair must be added to the account for the Infrastructure Provisioning User. When this Public key is uploaded, the system automatically creates a fingerprint that is displayed in the console of Oracle Cloud Infrastructure and is required for input into the Infrastructure Provisioning Console. In order to enable provisioning in Oracle Cloud Infrastructure, the Private key of this key pair is required as an input in the Infrastructure Provisioning Console.. The generation of this key pair, along with associated functions, are described in the section of this Learning Path entitled: ***Configuring a User for Infrastructure Provisioning***. 
+2.  **Instance Key Pair.** Secure Shell (SSH) provides an encrypted login method that is a more secure replacement for Telnet for logging on to Oracle Cloud Infrastructure. Before you can use Infrastructure Provisioning to create instances, you must generate **Instance Key Pairs** and upload the SSH Public Key to Oracle Cloud Infrastructure. This SSH Public Key is used for authentication for any Oracle Cloud Infrastructure instance except the Bastion Server. The generation of this key pair is described in the section of this Learning Path entitled: ***Generating Instance Key Pairs in openssh Format***.
+
+3.  **Bastion Host Key Pair**. This key pair is similar to **Instance Key Pairs** but are strongly recommended as best practice for the highest level of security. That is, you should the same procedure to create a different set of **Bastion Host Key Pairs** for public production access to the Bastion host, while keeping access to other host instances securely separated. The generation of these keys is described in the section of this Learning Path entitled: ***Generating Instance Key Pairs in openssh Format***.
+4.  **CA Certificates.** You must generate CA certificates in order to support Load Balancing as a Service (LBaaS), which is core functionality that is deployed and configured by JD Edwards EnterpriseOne Infrastructure Provisioning. These certificates are used to configure LBaaS with SSL. The procedure is described in the section of this Learning Path entitled: ***Generating CA Certificates for Load Balancing as a Service (LBaaS***). 
+
+### What Do You Need?
+
+To perform the steps in this tutorial, you must have:
+
+-   Created a Linux instance for the Terraform Staging Console as described in the previous OBE in this Learning Path entitled: ***Creating a Linux Instance for the Terraform Staging Server***.
+-   Refer to Oracle Cloud Infrastructure documentation for additional details on: [Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm "Managing User Credentials").
+
+
+![section 1](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_1.png)Generating a Public Key for the Infrastructure Provisioning User
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 On any machine running Oracle Enterprise Linux, use this procedure to generate a public key (also called a PEM key or a Site Key) for the user that will be used by the JD Edwards EnterpriseOne Infrastructure Provisioning Console. This user can be the current user or any user that you want. If the user does not exist, use the standard procedure to create a desired user as described in Oracle Cloud Infrastructure documentation for **Create a User** in [Adding Users](https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Tasks/addingusers.htm?Highlight=creating%20users "Adding Users"). Also refer to Oracle Cloud Infrastructure documentation for additional details on: [Managing User Credentials](https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcredentials.htm "Managing User Credentials").
 
@@ -788,7 +819,6 @@ You must upload the key for the Infrastructure Provisioning User to Oracle Cloud
 4.  Make a record of the output of the above command for use as input for a subsequent task in a following OBE in this Learning Path entitled: ***Using the Infrastructure Provisioning Console***.
 5.  The Infrastructure Provisioning Console will also prompt you for the path to this Private Key in PEM format.
 
-* * * * *
 
 ![section 2](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_2.png)Adding the Public Key as an API Key for the Infrastructure Provisioning User
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -827,7 +857,6 @@ Use this procedure to add the public key as an API key to Oracle Cloud Infrastru
 
     **Note:** Ensure that you copy the complete contents of the key including the BEGIN CERTIFICATE and END CERTIFICATE text.
 
-* * * * *
 
 ![section 3](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_3.png)Locating a Fingerprint for the Infrastructure Provisioning User
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -850,10 +879,9 @@ After you have added the public key to the Infrastructure Provisioning User, the
 
 6.  Make a record of the fingerprint for use as input for a subsequent task in a following OBE in this Learning Path entitled: ***Using the Infrastructure Provisioning Console***.
 
-* * * * *
 
-Determining the OCID for the Infrastructure Provisioning User
---------------------------------------------------------------
+![section 4](https://docs.oracle.com/en/applications/jd-edwards/tutorial-config-user-infra-provisioning/img/32_4.png)Determining the OCID for the Infrastructure Provisioning User
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Use this procedure to determine the OCID for the Infrastructure Provisioning User:
 
