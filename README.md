@@ -15,6 +15,7 @@
   * [Before You Begin](#before-you-begin)
     + [Background](#background)
     + [What Do You Need?](#what-do-you-need-)
+  * [Creating a Compartment](#creating-a-compartment)
 
 ![](images/oraclecode/youtube.png)
 
@@ -203,3 +204,45 @@ Secure SHell (SSH) provides an encrypted login method that is a more secure repl
         **Important:** The file name you specify for this Private Key must have a .ppk extension.\\
         **Tip:** As mentioned in the ***Before You Begin*** section of this task, for organizational purposes, you should give these keys a significant name tying them to their use, like **Bastion.ppk** for the Bastion server and **OCI_Instance.ppk** for Oracle Cloud Infrastructure instances.
     8.  Repeat this step to create another Private key pair, where one key pair will be for accessing the Bastion host, and the other key pair will be for accessing all other Oracle Cloud Infrastructure instances by tunneling through the Bastion host.
+
+
+Creating a Compartment
+----------------------
+
+To create a Compartment for JD Edwards EnterpriseOne on Oracle Cloud Infrastructure:
+
+1.  As the user for which you will create a public key to access the Terraform Staging Server, log in to Oracle Cloud Infrastructure using the following URL for the tenancy in which you want to provisioning infrastructure using the JD Edwards EnterpriseOne Infrastructure Provisioning Console:
+
+    https://console.<your_region-ad>.oraclecloud.com/#/a/
+
+    For example:
+
+    https://console.us-ashburn-1.oraclecloud.com/#/a/
+2.  On the Oracle Cloud Infrastructure Console Home page, click the **Navigation Menu** in the upper-left corner.
+
+    ![Navigation Menu](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-compartment-ref/img/using_the_console_compartments.jpg)
+
+    [Navigation Menu - Compartments](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-compartment-ref/files/using_the_console.txt)
+
+3.  From the Navigation Menu, in the **Identity** section, click to select the **Compartment** service.
+4.  In the **Compartments** section, click the **Create Compartment** button.
+
+![Identity Compartments](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-compartment-ref/img/identity_compartments.jpg)
+
+[Oracle Cloud Infrastructure Console - Identity > Compartment > Create Compartment](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-compartment-ref/files/identity_compartment.txt)
+
+6.  On the Create Compartment dialog, complete these fields:
+
+-   *Name*\
+    Enter a name for the compartment.
+-   *Description*\
+    Enter a description for the compartment.
+-   *Tags*\
+    Optionally you can enter tag information in these fields. For more information, click the link in the dialog for Learn more about tagging.
+
+8.  Click the **Create Compartment** button.
+
+![Create Compartment Dialog](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-compartment-ref/img/create_compartment_dialog.jpg)
+
+[Create Compartment Dialog](https://docs.oracle.com/en/applications/jd-edwards/tutorial-create-compartment-ref/files/create_compartment_dialog.txt)
+
