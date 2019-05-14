@@ -989,3 +989,8 @@ On any machine running Oracle Enterprise Linux, use this procedure to generate C
     openssl x509 -req -in device.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out device.crt -extfile device-csr.conf -extensions v3_req
     
     
+    
+Downloading Software Components for Infrastructure Provisioning
+---------------------------------------------------------------
+
+
