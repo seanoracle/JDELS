@@ -993,4 +993,20 @@ On any machine running Oracle Enterprise Linux, use this procedure to generate C
 Downloading Software Components for Infrastructure Provisioning
 ---------------------------------------------------------------
 
+### Background
+
+You must obtain the following software components for use by the Terraform Staging Server to deploy JD Edwards EnterpriseOne in Oracle Cloud Infrastructure:
+* Archive File for JD Edwards EnterpriseOne Infrastructure Provisioning
+* Requisite JDK for WebLogic Server
+* WebLogic Server
+* Patches for WebLogic Server
+* Archive File for JD Edwards EnterpriseOne One-Click Provisioning
+* Obtain, Unzip, Assemble, and Extract the Archive Files
+
+## Arcchive File for JD Edwards EnterpriseOne Infrastructure provisioning
+
+1. Go to https://edelivery.oracle.com/osdc/faces/Home.jspx
+2. Sign in
+3. Search for JD Edwards Infrastructure Provisioning 2.0 for Linux x86-64
+
 
