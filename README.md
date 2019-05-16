@@ -1003,7 +1003,7 @@ You must obtain the following software components for use by the Terraform Stagi
 * Archive File for JD Edwards EnterpriseOne One-Click Provisioning
 * Obtain, Unzip, Assemble, and Extract the Archive Files
 
-## Archive File for JD Edwards EnterpriseOne Infrastructure provisioning
+### Archive File for JD Edwards EnterpriseOne Infrastructure provisioning
 
 1. Go to https://edelivery.oracle.com/osdc/faces/Home.jspx
 2. Sign in
@@ -1016,13 +1016,59 @@ You must obtain the following software components for use by the Terraform Stagi
 ![](images/screen3.png)
 
 4. Click on each of the files individually to download them
-5. Use a FTP program to transfer these files to your terraform staging server
+5. Use a FTP program to transfer the infrastructure provisioning files to your terraform staging server
 6. First we move the 3 terraform zip files V980627-01.zip  V980640-01.zip  V980642-01.zip into /u01
 7. Then we extract these files
 8. Run the linux commands: 
 > chmod 775 ./rebuild.sh
-
 > sudo ./rebuild.sh
+
+### Requisite JDK for Weblogic Server 
+
+You must obtain the **installer** or the requisite JDK that is compatible with the supported version of WebLogic Server that you are installing.
+
+You must upload the installer for the JDK, which **must** be in **tar.gz** format, to a sub directory on the Terraform Staging Server in the same location where you placed the archive file in the preceding step:
+>/u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/web
+
+### Weblogic Server
+
+You must obtain a licensed version of the supported installer for WebLogic Server from this Oracle web site:
+
+https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html
+
+You must upload the installer for WebLogic Server to a sub directory on the Terraform Staging Server in the same location where you placed the archive file in the preceding step:
+
+> /u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/web
+
+If the file you downloaded is a zip file, you should extract the file to locate a .jar file with a name similar to this:
+
+fmw_12.2.1.3.0_wls.jar
+
+Move the extracted .jar file to the below location:
+
+/u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/web/
+
+### Patches for Weblogic Server 
+
+You must obtain all current patches for the supported WebLogic Server version.
+
+You must upload the installer for the patches to a sub directory on the Terraform Staging Server in the same location where you placed the archive file in the preceding step.
+
+**JAMES FIND THE LINK TO THE PATCHES AND PUT THEM HERE**
+> /u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/web/patch
+
+### Archive File for JD Edwards EnterpriseOne One-Click Provisioning
+
+In the terminal you must unzip the remaining 8 files you downloaded previously:
+
+V980628-01.zip
+V980629-01.zip
+V980630-01.zip
+V980631-01.zip
+V980632-01.zip
+V980633-01.zip
+V980634-01.zip
+V980635-01.zip
 
 
 
