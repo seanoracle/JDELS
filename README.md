@@ -1575,5 +1575,57 @@ Database Server Configuration
 
     [Infra Provisioning Logs window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/logerror.txt)
 
+Connecting to a Windows Host in a Private Network Through the Bastion Host
+--------------------------------------------------------------------------
 
+This procedure describes how connect from a Microsoft Windows machine to a Windows host in a private network in Oracle Cloud Infrastructure through the Bastion host that has been deployed using JD Edwards EnterpriseOne Infrastructure Provisioning.
+
+1.  On our Microsoft Windows machine, search for the Pageant application (pageant.exe).
+
+    **Note: **As mentioned in ***What Do You Need?*** this program is a standard component of PuTTY for Microsoft Windows.
+
+![Pageant search](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/img/pageant_search.jpg)
+
+[Search for Pageant Application](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/files/pageant_search.txt)
+
+3.  Start the pageant application to display the Pageant Key List window.
+
+![Pageant Search](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/img/pageant_key_list.jpg)
+
+[Pageant Key List - Add Key](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/files/pageant_key_list.txt)
+
+5.  Click **Add Key **and browse to the Private Key you provided to the Infrastructure Provisioning Console, which is used to create Compute instances in Oracle Cloud Infrastructure. For example:
+
+![Pageant Added Private Key](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/img/pageant_key_added.jpg)
+
+[Pageant Key List - Private Key Added](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/files/pageant_key_added.txt)
+
+7.  Open PuTTY and in the HostName field, enter the Public IP address of the Bastion server (also includes the NAT server and Server Manager Console).
+
+    **Note: **As a best practice, you can save this PuTTY session for future use when logging into machines in the private network known to this Bastion Host.
+
+![Pageant Added Private Key](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/img/putty_bastion_ip_address.jpg)
+
+[PuTTY Configuration - IP Address for Bastion Host](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/files/putty_bastion_ip_address.txt)
+
+9.  To create an SSH tunnel to the local host, in the Connections Category, click **SSH**, and then click **Tunnels**.
+10. Enter the Source port number and Destination address. Ensure that the options *Local ports accept connections from other hosts, Local, and Auto *are selected.
+
+![Pageant Added Private Key](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/img/windowshost1.png)
+
+[PuTTY Configuration - IP Address for Bastion Host](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/files/windowshost1.txt)
+
+12. Launch Remote Desktop Connection and connect to localhost:33389.\
+    **Note:** You will loose access to this local host if the PuTTY session becomes inactive.
+
+![Pageant Added Private Key](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/img/windowshost2.png)
+
+[Remote Desktop Connection window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-connect-win-thru-bastion/files/windowshost2.txt)
+
+**Note:** If you are using a mac follow this approach instead of using pageant: 
+
+Create the ssh tunnel in order to RDP into the windows machine using this command:
+> ssh -L 3389:<Windows VM private IP>:3389 opc@<Bastion public ip> -N -i key_file 
+  
+Once the tunnel is created you can use the remote desktop app to login to the Windows machine.
 
