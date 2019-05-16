@@ -1132,7 +1132,7 @@ Use this procedure to complete configuration in the JD Edwards Infrastructure Pr
 
 1.  Access the JD Edwards Infrastructure Provisioning Console using a browser and the following URL:
 
-    https://localhost:3000
+    https://<IP address of terraform server>:3000
 
 2.  On Network Details, enter valid values as illustrated in the following example:
 
