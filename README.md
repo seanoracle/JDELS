@@ -1003,14 +1003,16 @@ You must obtain the following software components for use by the Terraform Stagi
 * Archive File for JD Edwards EnterpriseOne One-Click Provisioning
 * Obtain, Unzip, Assemble, and Extract the Archive Files
 
-## Arcchive File for JD Edwards EnterpriseOne Infrastructure provisioning
+## Archive File for JD Edwards EnterpriseOne Infrastructure provisioning
 
 1. Go to https://edelivery.oracle.com/osdc/faces/Home.jspx
 2. Sign in
 3. Search for JD Edwards Infrastructure Provisioning 2.0 for Linux x86-64
 
 ![](images/screenshot1.png)
+
 ![](images/screen2.png)
+
 ![](images/screen3.png)
 
 4. Click on each of the files individually to download them
@@ -1019,6 +1021,7 @@ You must obtain the following software components for use by the Terraform Stagi
 7. Then we extract these files
 8. Run the linux commands: 
 > chmod 775 ./rebuild.sh
+
 > sudo ./rebuild.sh
 
 
