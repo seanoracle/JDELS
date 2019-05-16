@@ -1009,4 +1009,17 @@ You must obtain the following software components for use by the Terraform Stagi
 2. Sign in
 3. Search for JD Edwards Infrastructure Provisioning 2.0 for Linux x86-64
 
+![](images/screenshot1.png)
+![](images/screen2.png)
+![](images/screen3.png)
+
+4. Click on each of the files individually to download them
+5. Use a FTP program to transfer these files to your terraform staging server
+6. First we move the 3 terraform zip files V980627-01.zip  V980640-01.zip  V980642-01.zip into /u01
+7. Then we extract these files
+8. Run the linux commands: 
+> chmod 775 ./rebuild.sh
+> sudo ./rebuild.sh
+
+
 
