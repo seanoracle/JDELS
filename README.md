@@ -1629,3 +1629,352 @@ Create the ssh tunnel in order to RDP into the windows machine using this comman
   
 Once the tunnel is created you can use the remote desktop app to login to the Windows machine.
 
+Log in to the Windows VM
+------------------------
+
+1.  Connect to the Microsoft Windows VM in Oracle Cloud Infrastructure as described in the previous OBE in this Learning Path entitled: ***Connecting to a Microsoft Windows Host in a Private Network Through the Bastion Host.***
+
+2.  The first time you access any Windows VM in Oracle Cloud Infrastructure, you are prompted to enter the initial password that the system generated when the instance was created by running JD Edwards EnterpriseOne Infrastructure Provisioning. This is the password that the system assigned upon creation of the Windows VM. On the **Instance Details** screen for the Windows VM that was created, locate the **Initial Windows Password** field.
+
+![Initial Temporary Windows Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/img/initial_windows_password.jpg)
+
+[Initial Windows Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/files/initial_windows_password.txt)
+
+4.  In the **Initial Windows Password** field, click the **Copy** option to copy the password.
+5.  On Remote Desktop Connection, enter **opc** as the user and paste the copied password.
+
+![Remote Desktop Connection - Enter User and Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/img/rdp_user_password.jpg)
+
+[Remote Desktop Connect - Enter User and Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/files/rdp_user_password.txt)
+
+7.  After you enter the credentials the first time you log in, you are prompted to change the password:
+
+    **The user's password must be changed before signing in.**
+
+    ![Remote Desktop Connection - Enter User and Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/img/rdp_change_user_password.jpg)
+
+    [Remote Desktop Connect - Change the User Password Before Signing In](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/files/rdp_change_user_password.txt)
+
+8.  Change the password for the **opc** user following the Microsoft Windows policy for creating a user password.
+
+    **Warning:** The password for any Windows user on any Windows machine must not contain the $ character; using this character violates the Oracle password policy and will result in denied access.
+
+    ![Remote Desktop Connection - Change User Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/img/rdp_change_user_password_1.jpg)
+
+    [Remote Desktop Connect - Change the User Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-login-windows-vm-man/files/rdp_change_user_password_1.txt)
+
+You should now be successfully signed in to the Microsoft Windows instance.
+
+Enable Remote Command Execution Through Microsoft PowerShell
+------------------------------------------------------------
+
+From Microsoft PowerShell, use this command to enable remote command execution:
+
+winrm quickconfig --q
+
+Enable Inbound Ports in the Firewall
+------------------------------------
+
+If you have the Microsoft Windows firewall enabled for any profile (public, private, default), which is recommended, in order for One-Click Provisioning to deploy to the Deployment Server in the Microsoft Windows instance in Oracle Cloud Infrastructure and for JD Edwards EnterpriseOne runtime to function properly, you will need to explicitly open Inbound and Outbound ports.
+
+Use this procedure to open the Inbound ports for ***each*** Microsoft Windows instance.
+
+1.  Go to Administrative Tools > Windows Firewall with Advanced Security.
+2.  In the left pane, highlight **Inbound Rules**.
+3.  In the right pane, Actions, Inbound Rules, click **New Rule ...**
+4.  On Rule Type, select the **Port** radio button as the type of rule to create.
+5.  Click the **Next** button.
+6.  On Protocol and Ports:
+    -   You can accept the default value of **TCP** for the protocol to which this rule applies.
+    -   Choose the radio button for **Specific local ports** and, for ***each*** Windows Server, enter each of the ports shown in the following table, separated by a comma.
+
+    |
+
+    **Windows Server Firewall Port List**
+
+     |
+    |
+
+    **Component**
+
+     |
+
+    **Inbound Ports to Open**
+
+     |
+    |
+
+    Deployment Server
+
+     |
+
+    445
+
+    3389
+
+    5150
+
+    5985
+
+    6017-6022
+
+    14502-14510
+
+     |
+
+![Example: Troubleshooting nslookup](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/windows_inbound_ports.jpg)
+
+[Windows Firewall - Inbound Ports](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/windows_inbound_ports.txt)
+
+8.  Click the **Next** button.
+9.  On Action, you can accept the default value which is **Allow the connection**.
+10. Click the **Next** button.
+11. On Profile, select all firewall profile options (**Domain, Private, Public**).
+12. Specify a name for the rule. For example, JDESMC_RDP
+13. Click the **Finish** button to save the rule and exit the wizard.
+
+* * * * *
+
+![section 3](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/32_3.png)Enable Outbound Ports in the Firewall
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+If you have the Microsoft Windows firewall enabled for any profile (public, private, default), which is recommended, in order for One-Click Provisioning to deploy to the Deployment Server in the Microsoft Windows instance in Oracle Cloud Infrastructure and for JD Edwards EnterpriseOne run-time to function properly, you will need to explicitly open Inbound and Outbound ports.
+
+Use this procedure to open the Outbound ports in your Microsoft Windows instance.
+
+1.  Go to Administrative Tools > Windows Firewall with Advanced Security.
+2.  In the left pane, highlight **Outbound Rules**.
+3.  In the right pane, Actions, click **New Rule ...**
+4.  On Rule Type, select the **Port** option as the type of rule to create.
+5.  Click the **Next** button.
+6.  On Protocol and Ports:
+
+    -   You can accept the default value of **TCP** for the protocol to which this rule applies.
+    -   Choose the option for **All remote ports**.
+
+![Windows Firewall - Outbound Ports](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/windows_outbound_ports.jpg)
+
+[Windows Firewall - Outbound Ports](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/windows_outbound_ports.txt)
+
+8.  On Action, you can accept the default value which is **Allow the connection**.
+9.  Click the **Next** button.
+10. On Profile, select **all** firewall profile options (**Domain, Private, Public**).
+11. Specify a name for the rule.
+12. Click the **Finish** button to save the rule and exit the wizard.
+
+* * * * *
+
+![section 4](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/32_4.png)Configure Settings for Ethernet Connections
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+You must configure settings for Ethernet connection to specify the domain name of the Domain Name System (DNS) for the Availability Domain to which all JD Edwards EnterpriseOne servers belong.
+
+For example, if your subnets look like that shown in the example below, you must configure your Network Settings using this procedure:
+
+![Example: Troubleshooting nslookup](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/compartment_subnets.jpg)
+
+[Compartment Subnets - DNS Domain Names Highlighted for Each Availability Domain](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/compartment_subnets.txt)
+
+1.  Open **Network and Sharing Center**.
+2.  On Ethernet settings, in Network > Connections, click **Ethernet** to open **Ethernet Status**.
+
+![Ethernet Status](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/ethernet_status.jpg)
+
+[Ethernet Status](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/ethernet_properties.txt)
+
+4.  On Ethernet Status, click the **Properties** button.
+5.  On Ethernet Properties, highlight this line: **Internet Protocol Version 4 (TCP/IPv4)** and click the **Properties** button.
+
+![Ethernet Status - ipv4](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/ethernet_status_ipv4.jpg)
+
+[Ethernet Status - ipv4](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/ethernet_status_ipv4.txt)
+
+7.  On Internet Protocol Version 4 (TCP/IPv4) Properties, click the **Advanced** button.
+
+![Ethernet Status - ipv4 Properties](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/ethernet_ipv4_properties.jpg)
+
+[Ethernet Status - ipv4 Properties](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/ethernet_ipv4_properties.txt)
+
+9.  On Advanced TCP/IP Settings, click to enable this option: **Append these DNS suffixes (in order): **and click the **Add **button.
+10. On the TCP/IP Domain Suffix dialog, enter the value of the **DNS Domain Name** for your Availability Domain(s). For example, assuming your subnets were as shown in the preceding screen showing the subnets in a VCN, for the suffix you would enter values for the three (3) subnet groups, which are admin, db, and es. These subnet groups have the following name pattern:
+
+    -   adminsubad*
+    -   dbsubad*
+    -   midsubad*\
+    where * indicates a numeric value for the Availability Domain, where they are generally at least 3 ADs per region.
+
+    For example, if your subnets were as shown in the previous screen shot in this procedure, you might make multiple entries and enter these values as the DNS suffixes
+
+    ****adminsubad1.myvcn.oraclevcn.com\
+    ********dbsubad1.myvcn.oraclevcn.com\
+    **dbsubad2.myvcn.oraclevcn.com ******\
+    **midsubad1.myvcn.oraclevcn.com **\
+    ****midsubad2.myvcn.oraclevcn.com **
+
+    **
+11. Click the **Add** button to add DNS suffixes for the **DNS Domain Name** for each subnet associated with a group and domain combination.
+12. You must also add the same value (****adminsubad1.myvcn.oraclevcn.com****) in the field labelled **DNS suffix for this connection**.
+
+![Ethernet Status - Advanced TCP/IP Settings](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/img/ethernet_advanced_tcpip.jpg)
+
+[Ethernet Status - Advanced TCP/IP Settings](https://docs.oracle.com/en/applications/jd-edwards/tutorial-run-cmd-win-ref/files/ethernet_advanced_tcpip.txt)
+
+14. Click the **OK** button to accept the values and exit the **Network and Sharing Center**.
+
+Accessing the JD Edwards One-Click Provisioning Console
+-------------------------------------------------------
+
+The recommended browsers for accessing the JD Edwards One-Click Provisioning Console are:
+
+-   Google Chrome
+-   Mozilla Firefox
+
+Open the browser and connect to the URL using this syntax:
+
+**https://localhost:3000**
+
+Where:
+
+-   **https** is the only supported browser protocol.
+
+-   **localhost** is used to access the Provisioning Server with a private IP address using tunneling. The Provisioning Server will not have a public IP address.
+
+-   **3000** is the port on which the One-Click Provisioning Server is running, and which you must include as part of the address.
+
+**Important:** Should you exit the JD Edwards One-Click Provisioning Console or experience a timeout, the next time you enter the JD Edwards One-Click Provisioning Console it displays the point where you left off. When you click the **Configure** icon, you will be prompted for the same credentials that you entered during your first access to the JD Edwards One-Click Provisioning Console.
+
+Configure the Server Manager Account
+------------------------------------
+
+Use this procedure to provide the account information.
+
+1.  On Welcome to the JD Edwards Provisioning Console, click the **Configure** icon.
+
+![Configure tile](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/img/1_1.png)
+
+[Configure Tile](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/files/1_1.txt)
+
+3.  If you are a new user, as prompted by the JD Edwards Provisioning Console, you are also required to change the administrator passwords for WebLogic Server and Server Manager Console.
+
+    On Change Password, enter the passwords for the Server Manager Administrator. The password must only have numbers, alphabets, and special characters (@,!,$,_,#), and is between 8 and 30 characters long.
+
+    Also, enter the password for the WebLogic Server. The password must start with a letter, is between 8 and 30 characters long, contains at least one number, and optionally, any number of special characters (#,_). For example, Ach1z0#d
+
+    **Important: **The password for any WebLogic Server user cannot contain the $ or ! character. Using either of these characters violates the Oracle password policy and will result in denied access.
+
+    Tip: Valid values for the passwords are displayed in the tooltip when you click the field.
+
+    Click the **OK **button.
+
+![Change Default Password](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/img/passwordchange.png)
+
+[Change Default Password Window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/files/passwordchange.txt)
+
+5.  On the Success window, click the **OK** button.
+
+![Success Window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/img/success1.png)
+
+[Success Window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/files/success.txt)
+
+7.  On Oracle JD Edwards Server Manager Details, reenter the Admin password for the Server Manager Console. The SMC Endpoint is pre-populated automatically.
+
+    **Important:** It is recommended that you record this value on the Pre-Install Worksheet, which you created as described in the companion document to this tutorial in the section entitled: ***Create the Pre-Install Worksheet***.
+
+![Success Window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/img/firstscreen.png)
+
+[Success Window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/files/firstscreen.txt)
+
+9.  Click the **Save Configuration** button.\
+    The system will take some time to authenticate the Server Manager Endpoint and Credentials. When the authentication is verified, click the **OK** button on the **Congratulations** box.
+
+![Congratulations](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/img/none.png)
+
+[Congratulations Window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-configure-server-manager-account/files/none.txt)
+
+Importing an Infrastructure Orchestration (Only allowed in Production mode)
+---------------------------------------------------------------------------
+
+To import the pdOrch.json file:
+
+1.  On the JD Edwards Provisioning Console, select the **Orchestrate** icon .
+
+![Create Connections](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/img/orchestrate1.png)
+
+[Orchestrate tile](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/files/orchestrate1.txt)
+
+3.  Click the **Import** icon.
+
+![Create Connections](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/img/import.png)
+
+[Import Orchestration JSON file](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/files/import.txt)
+
+5.  On Import One-Click Provisioning Orchestration click **Choose File**, and then select pdOrch.json from the following path:  JDERefArchProvisioning/E1InfraProvisionConsole/outputJson.
+
+![Import One-Click Provisioning Orchestration](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/img/importdialog.png)
+
+[Import One-Click Provisioning Orchestration](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/files/importdialog.txt)
+
+**Note:** The system displays an error if the password authentication is required as illustrated in the following example. You must edit the instance, enter the required password, and then save the instance.
+
+![Example of an imported orchestration](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/img/example_import.png)
+
+[Example of an imported orchestration](https://docs-stage.oracle.com/en/applications/jd-edwards/tutorial-import-terra/files/example_import.txt)
+
+Deploying an Orchestration
+--------------------------
+
+This procedure describes how to deploy an orchestration, whether it is a Quick Start or an Advanced mode Deployment Plan.
+
+1.  After you create a Deployment Plan, from the JD Edwards Provisioning Console, click the **Deploy** icon.
+
+![Deploy
+icon](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/img/3_1.png)
+
+[Deploy icon](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/files/3_1.txt)
+
+3.  To view the Account details and Global Settings Summary, in the **Deployment Details** tab click the ">" icon for each server in the Deployment Details to see the details of the servers you provisioned.
+
+![Deployment
+                                Summary](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/img/3_2.png)
+
+[Deployment Summary](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/files/3_2.txt)
+
+5.  Click the **Back** button if required to make additional changes to the server instances.
+6.  To start the deployment, click the **Start Deployment** button.
+7.  On Deployment Status, you can see all the instances and task details and their progress. You can also view the log or summary of each of the tasks.\
+    The time taken to deploy the servers depends on your customization.
+
+![Deployment
+                                Status](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/img/3_3.png)
+
+[Deployment Status](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/files/3_3.txt)
+
+9.  Click the **Back** button if you want to go back to the Deployment Summary window.
+
+* * * * *
+
+![section 2](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/img/32_2.png)Adding Additional Pathcodes Post Deployment
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+You can add additional pathcodes to the Database Server instance after the deployment is successful.
+
+To add additional pathcodes:
+
+1.  On Welcome to the JD Edwards Provisioning Console, click the **Orchestrate** icon.
+2.  On JD Edwards Servers, click on **Database Server Instances.**
+3.  Select the Database Server instance, and then use the action tab to choose **Edit Schema** option.
+
+![Options](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/img/schema.png)
+
+[Edit Schema Option](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/files/schema.txt)
+
+5.  On Existing Database Instance Details, select the available pathcodes.\
+    An error message window appears if you attempt to delete the previously installed schema or the demo data.
+6.  Click the **OK** button.
+7.  Now you can see the Deployment status as **MODIFIED**.
+
+![Options](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/img/schema1.png)
+
+[Modified Status](https://docs.oracle.com/en/applications/jd-edwards/tutorial-deploy-orchestration/files/schema1.txt)
+
+9.  Click the **Back **button, and then click **Deploy **icon to start your modified deployment.
