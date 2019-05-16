@@ -31,6 +31,19 @@
   - [Locating a Fingerprint for the Infrastructure Provisioning User](#locating-a-fingerprint-for-the-infrastructure-provisioning-user)
   - [Determining the OCID for the Infrastructure Provisioning User](#determining-the-ocid-for-the-infrastructure-provisioning-user)
 * [Generating CA Certificates](#generating-ca-certificates)
+* [Downloading Software Components for Infrastructure Provisioning](#downloading-software-components-for-infrastructure-provisioning)
+* [Launching the JD Edwards Infrastructure Provisioning Console](#launching-the-jd-edwards-infrastructure-provisioning-console)
+* [Editing the Terraform Scripts](#editing-the-terraform-scripts)
+* [Completing Configuration in the JD Edwards Infrastructure Provisioning Console](#completing-configuration-in-the-jd-edwards-infrastructure-provisioning-console)
+* [Connecting to a Windows Host in a Private Network Through the Bastion Host](#connecting-to-a-windows-host-in-a-private-network-through-the-bastion-host)
+* [Log in to the Windows VM](#log-in-to-the-windows-vm)
+* [Enable Inbound Ports in the Firewall](#enable-inbound-ports-in-the-firewall)
+* [Enable Outbound Ports in the Firewall](#enable-outbound-ports-in-the-firewall)
+* [Accessing the JD Edwards One-Click Provisioning Console](#accessing-the-jd-edwards-one-click-provisioning-console)
+* [Configure the Server Manager Account](#configure-the-server-manager-account)
+* [Importing an Infrastructure Orchestration](#importing-an-infrastructure-orchestration-only-allowed-in-production-mode)
+* [Deploying an Orchestration](#deploying-an-orchestration)
+* [Adding Additional Pathcodes Post Deployment](#adding-additional-pathcodes-post-deployment)
   
 
 
