@@ -1070,5 +1070,30 @@ V980633-01.zip
 V980634-01.zip
 V980635-01.zip
 
+Once all the files are unzipped run these linux commands:
+> chmod 775 rebuild.sh
+> sudo ./rebuild.sh
+
+The script uses the checksum utility to verify the file size of the DiskPart file.
+The script creates the necessary JDE_Prov*.tgz file in the directory in which it was run on the machine where you executed the rebuild.sh script.
+
+Move JDE_Prov*.tgz file to the following location on Terraform Staging Server:
+
+> /u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/sm 
+
+### Obtain the Supported Version of Ruby
+You must also obtain the specific version of Ruby that is supported by Infrastructure Provisioning, which for JD Edwards Tools Tools Release 9.2.3.3 is is Ruby 2.5.3. You can use this link:
+
+https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.3.tar.gz
+
+Once you have obtained the supported version of Ruby, place it in the same directory as the reassembled archive file above, which is:
+
+> /u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/sm
+
+
+
+
+
+
 
 
