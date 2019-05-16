@@ -1021,6 +1021,7 @@ You must obtain the following software components for use by the Terraform Stagi
 7. Then we extract these files
 8. Run the linux commands: 
 > chmod 775 ./rebuild.sh
+
 > sudo ./rebuild.sh
 
 ### Requisite JDK for Weblogic Server 
@@ -1072,6 +1073,7 @@ V980635-01.zip
 
 Once all the files are unzipped run these linux commands:
 > chmod 775 rebuild.sh
+
 > sudo ./rebuild.sh
 
 The script uses the checksum utility to verify the file size of the DiskPart file.
