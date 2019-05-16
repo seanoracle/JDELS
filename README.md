@@ -1092,10 +1092,488 @@ Once you have obtained the supported version of Ruby, place it in the same direc
 
 > /u01/JDERefArch_InfraProvisioning/TerraformScripts/modules/userdata/sm
 
+Launching the JD Edwards Infrastructure Provisioning Console
+------------------------------------------------------------
 
+To log in to the JD Edwards Infrastructure Provisioning Console:
 
+1.  Log in to Terraform Staging Server using the instructions in the preceding OBE of this Learning Path entitled: ***Logging into the Linux Instance for the Terraform Staging Server***.
+2.  Launch the JD Edwards Infrastructure Provisioning Console by running these commands with administrative (sudo) rights:
 
+    cd /u01/JDERefArch_InfraProvisioning/\
+    sudo ./setupE1InfraConsole.sh
 
+**Important:** You must run the setupE1InfraConsole.sh script from the /JDERefArch_InfraProvisioningdirectory.
+
+Editing the Terraform Scripts
+-----------------------------
+
+1. Navigtate to /u01/JDERefArch_InfraProvisioning/TerraformScripts
+2. go to the global directory
+3. open global.main.tf 
+4. Change bastion_image and nat_image to ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda
+
+![](images/terra1.png)
+
+Go to nonpd directory and open nonpd.main.tf (first four are the same linux image, the fifth is a windows image) 
+1. In module “create_wls” set app image    = ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda
+2. In module “create_logic” set app image  = ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda
+3. In module “create_batch” set app image  = ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda
+4. In module “create_sm” set app image     = ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda
+5. In module “create_depsvr” set app image = ocid1.image.oc1.iad.aaaaaaaazwjpcgqp7o4eh7okgmbobebdsmlvybxq5tskfojwsnwwxipnfntq
+**Note:** If you are doing a production deployment edit the same things but in the pd directory
+
+Completing Configuration in the JD Edwards Infrastructure Provisioning Console
+------------------------------------------------------------------------------
+
+Use this procedure to complete configuration in the JD Edwards Infrastructure Provisioning Console:
+
+**Note:** You must open port 3000 in your security list and on the firewall of the terraform server. 
+
+1.  Access the JD Edwards Infrastructure Provisioning Console using a browser and the following URL:
+
+    https://localhost:3000
+
+2.  On Network Details, enter valid values as illustrated in the following example:
+
+-   Tenancy OCID\
+    This is the Oracle-assigned unique ID called an Oracle Cloud Identifier (OCID). It is included as part of the resource's information in both the Console and the API. You can find your tenancy's OCID in the Console at the top right user icon. The tenancy OCID looks something like this (notice the word "tenancy" in it):
+
+    `ocid1.tenancy.oc1..aaaaaaaaba3pv6wkcr4jqae5f44n2b2m2yt2j6rx32uzr4h25vqstifsfdsq`
+
+-   *Region Name*\
+    Enter the name of the region where the resource is located (for example, eu-frankfurt-1).
+-   Compartment OCID\
+    Enter the OCID of the Compartment. On OCI, access the Identity tab, and then click Compartments to view the Compartment OCID.
+
+-   User OCID\
+    Enter the user OCID.  This is the OCID in the User Information tab of the api.user window. See the section *Oracle Cloud Identifiers (OCIDs)* in this document.
+
+-   Fingerprint\
+    Enter the Fingerprint of the Infrastructure Provisioning user. See the section entitled: ***Configuring a User for Infrastructure Provisioning*** in this Learning Path.
+
+-   OCI API Private Key Path\
+    Enter the path where the Oracle Cloud Infrastructure private key in pem key format for the Infrastructure Provisioning user is located. See the section entitled: ******Configuring a User for Infrastructure Provisioning*** in this Learning Path.***
+-   Instance Private Key File\
+    Enter the name of the Instance private key file in openssh format. If you followed the recommendation, the key file is named **OCI_instance.openssh**. This key is used only to access the Linux instances and not the Bastion host machine. Refer to the section entitled: ***Generating Instance Key Pairs in openssh Format***.
+
+-   *VCN DNS Label*\
+    Enter the value of the **DNS Label** for your VCN.
+
+    **Important:** This is not necessarily the same as the name of VCN. This is a system generated value that truncates the VCN name by eliminating special characters and limiting the value to a maximum of 15 alphanumeric characters. As shown below, this value is displayed in the **DNS LABEL** field when you created the VCN. This same value is also assigned as the first segment of the **DNS Domain Name**.
+
+    ![Create Virtual Cloud Network - DNS Label](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/create_vcn_dns_label.jpg)
+
+    [Create Virtual Cloud Network - DNS Label](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/create_vcn_dns_label.txt)
+
+    **Note:** If you did not make a record of this value when you created the VCN, you can determine it by extracting the first segment of the **DNS Domain Name** field for your VCN, as shown in the following screen, where in this example the VCN name is **Test_Underscore-special-characters**, and the system-truncated value for **DNS Label** is shown as **testunderscores** in the first segment in the **DNS Domain Name** field. This is the value that needs to be entered in the **VCN DNS Label** field in the Infrastructure Provisioning Console.
+
+    ![Determine DNS Label - First Segment of DNS Domain Name](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/determine_dns_label.jpg)
+
+    [Determine DNS Label - First Segment of DNS Domain Name](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/determine_dns_label.txt)
+
+-   VCN CIDR Block:\
+    Enter the VCN CIDR address. The VCN CIDR blocks indicates the network addresses that can be allocated to the resources.
+
+    **Note:** Ensure that the CIDR block represents the correct private IP Address range.
+
+-   Environment for this Plan:\
+    Select the environment for this plan. The available options are:  Production and Non-Production.
+
+    **Important:** If you are considering provisioning both production and non-production environment in Infrastructure Provisioning, note that only below combinations are supported, where you can provision these combinations of environments and provisioning runs (deployment cycles of Infrastructure Provisioning):
+
+    -   Both production and non-production environment in single provisioning run.
+    -   Production environment in one run, followed by non-production environment in another provisioning run.
+
+    -   Only production environment in a single provisioning run.
+    -   Only non-production environment in a single provisioning run. In this case, you cannot provision production environment in a subsequent provisioning run.
+
+![Network Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/network_details.png)
+
+[Network Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/network_details.txt)
+
+5.  Click **Next**.
+6.  On Bastion Details, and enter valid values as illustrated in the following example:
+
+    -   *Host Name Prefix\
+        *Enter the Bastion host name prefix.\
+        The Bastion instance and the NAT instance is be created using the prefix value entered in this field. The length of the prefix must not exceed 6 characters.
+
+        For example,  if the prefix value is entered as pdjde, the server names will be created as follows:\
+        **Bastion Host:**  `pdjdebas` [first three character of domain][1-N]\
+        **NAT Host:**  `pdjdenat `[first three character of domain][1-N]
+    -   *Shape *\
+        Select the Bastion instance shape.\
+        The recommended shapes are:\
+        VM.Standard2.1, VM.Standard2.2, VM.Standard1.4, VM.Standard2.4, VM.Standard2.8, VM.Standard2.16, and VM.Standard2.24.
+
+        **Note: **It is recommended to use  the shape *VM.Standard2.1* for the Bastion instance.
+    -   *SSH Key\
+        *Click Browse and select the Bastion instance private key file in openssh format. If you followed the recommendation, the key file is named **Bastion.openssh**. Refer to the section entitled: ***Generating Instance Key Pairs in openssh Format***.
+
+    ![bastion_details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/bastion_details.png)
+
+    [Bastion Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/bastion_details.txt)
+
+8.  Click **Next**.
+9.  In the Provisioning Server Details tab, enter valid values as illustrated in the following example:
+
+-   *Shape *\
+    The recommended shapes are:\
+    VM.Standard2.1, VM.Standard2.2, VM.Standard1.4, VM.Standard2.4, VM.Standard2.8, VM.Standard2.16, and VM.Standard2.24.
+
+    The supported shapes by One-Click Provisioning are:\
+    VM.Standard2.1, VM.Standard1.1, VM.Standard2.2, VM.Standard1.2, VM.Standard1.4, VM.Standard2.4
+-   *Block Volume (GB)\
+    *Select the block storage size. It is recommended to use atleast 80 GB of storage size.*
+
+    ***Note:**Additional block storage size is attached to /u01
+
+![provisioning_server_details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/provisioning_server.png)
+
+[Provisioning Server Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/provisioning_server.txt)
+
+11. Click **Next**.
+12. On Shared DB Details , select valid values as illustrated in the following example:
+
+    -   Create Separate Database Server for Shared DB\
+        Select this option to create an additional DBS for the Shared DB. The number of additional DBS will be same as the number of DBS entered for the selected pathcode.
+    -   Create Shared Database along with Pathcode\
+        If you select this option, an additional DBS will not be created for the shared DB.
+
+![shared_db](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/shared_db.png)
+
+[Shared DB Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/shared_db.txt)
+
+14. Click **Next**.
+15. On Deployment Server Details, enter valid values as illustrated in the following example:
+
+-   *Create Deployment Server *\
+    Chose from the options as required. The available options are: Yes and No.
+-   *Deployment Server Instance Shape List *\
+    Select the Deployment Server Instance shape list.\
+    The recommended shapes are: VM.Standard2.1, VM.Standard2.2, VM.Standard1.4, VM.Standard2.4, VM.Standard2.8, VM.Standard2.16, and VM.Standard2.24.
+
+    The supported shapes by One-Click Provisioning are:\
+    VM.Standard2.1, VM.Standard1.1, VM.Standard2.2, VM.Standard1.2, VM.Standard1.4, VM.Standard2.4
+
+![deploy_server](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/deploy_server.png)
+
+[Deployment Server Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/deploy_server.txt)
+
+17. Click **Next**.
+18. On Production Environment Details, enter valid values as illustrated in the following example:
+
+-   *Availability Domain*\
+    Select the required availability Domain for the production servers. The available domains are: AD1, AD2, and AD3.\
+    **Note: **You must select two Availability Domains for the Production Server.**\
+    **
+-   *Host Name Prefix *\
+    Enter the host name prefix for the production servers.\
+    All the instances will be created with the prefix value entered in this field. The length of the prefix must not exceed 6 characters.
+
+    For example,  if the Prefix value is entered as `pdjde,`the instances are created with the following names:
+
+    **Database System:** `pdjdedb[1-N]`\
+    **Logic Server:**` pdjdelogic[1-N]`\
+    **Batch Server:** `pdjdebatch[1-N]`\
+    **Weblogic Server: **`pdjdewls[1-N]`\
+    **Deployment Server:** `pdjdedep[1-N]`
+-   *DNS Zone Name*\
+    Enter the non-existing DNS Zone name to be created; that is, you cannot enter the name for a zone that already exists. For example, you could enter this value: **jdedwards.com**.
+
+**\
+Database Server Configuration
+
+**
+
+-   *Database Name*\
+    The value in this field is pre-populated.
+-   *PDB Name*\
+    The value in this field is pre-populated.
+-   *Database Admin Password*\
+    Enter the password for the Database Administrator. The password must be 9 to 30 characters long, must contain at least two upper case letters, two lower case letters, two numbers, and two special characters.*
+
+    ***Note:** You must remember to enter this same password if you want to edit the information on this page in case of an error during the provisioning. You can enter a new password or use this same password if you want edit the information or to increase the server count after the provisioning is successful. The new password will apply only to the newly added servers.
+-   *Shape\
+    *The value in this field is pre-populated.*\
+    *
+-   *Total Node Count\
+    *Select the required DB node count from the drop-down list. The available options are 1 and 2.*\
+    *
+-   *Oracle Database Software Edition\
+    *Select the Database software edition from the drop-down list.*\
+    *
+-   *Available Storage Size (GB)\
+    Select the DB block storage size from the drop-down list.\
+    *
+-   *License Type\
+    *This option is pre-selected. The available options are License Included and Bring your Own License (BYOL)*\
+    *
+-   *Database Version\
+    *Select the Database version from the drop-down list.*\
+    *
+-   *Database Workload\
+    *The value in this field is pre-populated.
+-   *Character Set\
+    *The value in this field is pre-populated.
+
+-   *National Character Set\
+    *The value in this field is pre-populated.
+
+**Enterprise Server Configuration**
+
+**Logic ES Information**
+
+-   *Total Logic ES Count\
+    *Enter the Enterprise Server count required for production. The count limit on OCI is 255.*\
+    *For example, if you enter the count as 4, then, 2 instances are provisioned on each of the domains.*\
+    *
+-   * Shape\
+    *Select the shape list for the instance.*\
+    *
+-   *Block Volume (GB)*\
+    Enter the logic block storage size.
+
+    **Note:** Additional storage is available at /u01.
+-   *Load Balancer Virtual Host Name *\
+    Enter the load balancer virtual host name for the logic Enterprise Server.
+
+    **Note: **The virtual host name must be same as the name entered while creating the LBaaS certificate. For example, logiclb.
+
+**Batch ES Information**
+
+-   *Total Batch ES Count *\
+    Enter the total batch Enterprise Server count for production. 
+-   *Shape *\
+    Select the shape list for the instance.
+-   *Block Volume (GB)*\
+    Enter the batch storage size.\
+    **Note:** Additional storage is available at /u01.
+-   *Load Balancer Virtual Host Name *\
+    Enter the load balancer virtual host name for the Batch Enterprise Server.\
+    **Note: **The virtual host name must be same as the name entered while creating the LBaaS certificate. For example, batchlb.
+
+**WebLogic Server Configuration**
+
+-   *WebLogic Server Count *\
+    Enter the WebLogic Server count for production. The count limit on OCI is 255.*\
+    *For example, if you enter the count as 4, then, 2 instances are provisioned on each of the domains.*\
+    *
+-   *WebLogic Admin Password *\
+    Enter the password for the WebLogic Administrator.\
+    The password must be 8 to 30 characters long, and must contain at least one number or a special character other than $.
+
+    **Note:** You must remember to enter this same password if you want to edit the information on this page in case of an error during the provisioning.\
+    You can enter a new password or use this same password if you want edit the information or to increase the server count after the provisioning is successful.\
+    The new password will apply only to the newly added servers.
+-   *Shape *\
+    Select the WebLogic Server instance shape list.
+-   *Block Volume (GB)*\
+    Enter the WebLogic Server block storage size.
+-   *HTML Count Per WebLogic Server *\
+    Enter the required HTML Server count.
+
+    This is the number of HTML Servers you want to provision per WebLogic Server.
+
+    For example, if the WebLogic Server count is 2, and HTML Server count is 3, a number of 3 HTML Servers will be orchestrated in each of the WebLogic Servers in the automatically generated orchestration.json file for the PD pathcode.
+-   Load Balancer Virtual Host Name for Web Servers\
+    Enter the Load Balancer virtual host name for web servers (HTML and AIS).
+
+    **Note: **The virtual host name must be same as the name entered while creating the LBaaS certificate. For example, weblb.
+-   *HTTPS Listen Port Range for HTML*\
+    Select the HTTPS listen port range for the HTML Server.\
+    This port range is used to orchestrate the HTML Server in the generated orchestration.json file for the PD pathcode.
+
+    **Note: **Both the http and the https ports will be assigned for this range. It is recommended to enter long ranges.\
+    For example, if you enter 8001 to 8010 (range of 10 ports), a maximum number of five HTML Servers can be provisioned.
+-   *LBaaS Listen Port for HTML*\
+    Enter the LBaaS https port number for the HTML Server.
+
+    **Note: **You can access the HTML Server through the Load Balancer using the IP address of the Load Balancer and this port number.**\
+    **
+-   *Total AIS Server Count*\
+    Enter the AIS Server count as required.
+
+    This is the number of AIS Server count you want to provision per Weblogic Server.
+
+    The same number of HTML Servers associated with the AIS server will also be orchestrated in generated orchestration.json file.
+
+    For example, if the WebLogic Server count is 2, and the AIS Server count is 3, then a number of 3 AIS Servers and 3 HTML Servers will be orchestrated in each of the WebLogic Servers in the automatically generated orchestration.json file of the PD pathcode.
+-   *HTTPS Listen Port Range for AIS*\
+    Select the HTTPS listen port range for the AIS Server.\
+    This port range is used to orchestrate the AIS Server in the generated orchestration.json file for the PD pathcode.
+
+    **Note: **Both the http and the https ports will be assigned for this range. It is recommended to enter long ranges.\
+    For example, if you enter 8001 to 8010 (range of 10 ports), a maximum number of five AIS Servers can be provisioned.
+-   *LBaaS Listen Port for AIS*\
+    Enter the LBaaS https port number for the AIS Server.
+
+    **Note: **You can access the AIS Server through the Load Balancer using the IP address of the Load Balancer and this port number.**\
+    **
+-   *HTML for AIS Server Count* per WebLogic Server\
+    This field is pre-populated. The value in this field will be same as the AIS Server count entered in this window.
+-   HTTPS Listen Port Range for HTML for AIS\
+    Select the listen port range for the HTML Servers associated with the AIS Servers.\
+    This port range is used to orchestrate the AIS Server in the generated orchestration.json for the PD pathcode.
+
+    **Note: **Both the http and the https ports will be assigned for this range. It is recommended to enter long ranges.\
+    For example, if you enter 8001 to 8010 (range of 10 ports), a maximum number of five HTML Servers associated with the AIS Server can be provisioned.
+-   LBaaS Listen Port for HTML for AIS\
+    Enter the LBaaS listen port number for the HTML Server associated with the AIS Server.
+
+    **Note: **You can access the HTML Server associated with the AIS Server through the Load Balancer using the IP address of the Load Balancer and this port number.**\
+    **
+
+**LBaaS Configuration **
+
+-   *Shape\
+    *Select the load balancer shape.The available options are: 100Mbps, 400Mbps, and 8000Mbps.*\
+    *
+-   Certificate Name\
+    Enter the load balancer certificate name. This is the name of the Load Balancer Certificate created on OCI console.
+-   CA Certificate\
+    Enter the content in the Load Balancer CA certificate.
+
+    **Note: **Refer to the section entitled: ***Generating CA Certificates for Load Balancing as a Service (LBaaS)***.
+-   *Certificate Private Key*\
+    Enter the content in the Load Balancer Certificate Private Key.
+
+    **Note: **Refer to the section entitled: ***Generating CA Certificates for Load Balancing as a Service (LBaaS)***.
+-   *Public Certificate*\
+    Enter the content in the Load Balancer Public Certificate.
+
+    For example:
+
+    Certificate: **device.crt**\
+    CA certificate: **rootCA.pem**\
+    Private key: **device.key**
+
+    **Note: **Refer to the section entitled: ***Generating CA Certificates for Load Balancing as a Service (LBaaS)***.
+
+-   *Certificate Passphrase*
+
+![production_environment](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/production_environment.png)
+
+[Production Environment Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/production_environment.txt)
+
+30. Click **Next**.
+31. On Non-Production Environment Details, enter valid values as illustrated in the following example:
+
+-   *Availability Domain *\
+    Select the required availability Domain for the non- production servers. The available domains are: AD1, AD2, and AD3.
+
+    **Note:** You can select only one availability domain for the non-production server.
+-   *Host Name Prefix *\
+    Enter the host name prefix for the non-production servers.
+
+    **Note: **All of the non-production instances are created using the prefix value entered in this field.
+
+**Database Server Configuration**
+
+-   *Database Name*\
+    The value in this field is pre-populated.*\
+    *
+-   * DB Count\
+    Select the DB count from the drop-down list.\
+    *
+-   *PDB Name*\
+    The value in this field is pre-populated.*\
+    *
+-   *Database Admin Password*\
+    Enter the password for the Database Administrator. The password must be 9 to 30 characters long, must contain at least two upper case letters, two lower case letters, two numbers, and two special characters.*
+
+    ***Note:** You must remember to enter this same password if you want to edit the information on this page in case of an error during the provisioning.\
+    You can enter a new password or use this same password if you want edit the information or to increase the server count after the provisioning is successful.\
+    The new password will apply only to the newly added servers.
+-   * Shape\
+    *The value in this field is pre-populated.
+-   *Total Node Count\
+    *Select the required DB node count from the drop-down list.*\
+    *
+-   *Oracle Database Software Edition\
+    *Select the Database software edition from the drop-down list.*\
+    *
+-   *Available Storage Size\
+    Select the DB block storage size from the drop-down list.\
+    *
+-   *License Type\
+    *This option is pre-selected.The available options are License Included and Bring your Own License (BYOL)*\
+    *
+-   *Database Version\
+    *Select the Database version from the drop-down list.*\
+    *
+-   *Database Workload\
+    *This option is pre-selected.*\
+    *
+-   *Character Set\
+    *The value in this field is pre-populated.*\
+    *
+-   *National Character Set\
+    *The value in this field is pre-populated.
+
+**Enterprise Server Configuration**
+
+-   *Total Logic ES Count *\
+    Enter the total number of Enterprise Server count for the non-production environment as required.
+-   *Shape *\
+    Select the Logic Instance shape list.
+-   *Block Volume (GB)*\
+    Enter the Logic Block Storage size.
+
+    **Note:** Additional storage is available at /u01.
+
+**WebLogic Server Orchestration Details**
+
+-   *WebLogic Server Count*\
+    Enter the WebLogic Server count for Non-Production.
+-   *WebLogic Admin Password *\
+    Enter the password for the WebLogic Administrator.\
+    The password must be 8 to 30 characters long, must contain at least one number or a special character other than $.
+
+    **Note:** You must remember to enter this same password if you want to edit the information on this page in case of an error during the provisioning.\
+    You can enter a new password or use this same password if you want edit the information or to increase the server count after the provisioning is successful.\
+    The new password will apply only to the newly added servers.
+-   *Shape *\
+    Enter the WebLogic Server Instance shape list.
+-   *Block Volume (GB)*\
+    Enter the WebLogic Server Block storage size.
+
+    **Note:** Additional storage is available at /u01.
+-   *HTTPS Listen Port Range for Web Servers *\
+    Select the HTTPS listen port rage required for all Non-Production HTML and AIS Servers.
+
+    This port range is used to orchestrate the HTML Servers and the AIS Servers for the non-production pathcode.
+
+    **Note: **Both the http and the https ports will be assigned for this range. It is recommended to enter long ranges.\
+    For example, if you enter 8030 to 8050 (range of 20 port), a maximum number of 15 HTML Servers or AIS Servers can be provisioned.
+
+![production_environment](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/nonproduction_environment.png)
+
+[Non-Production Environment Details](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/nonproduction_environment.txt)
+
+40. Click **Finish**. The Terraform scripts are automatically initiated. The following message is displayed if the provisioning is successful.
+
+    **Note: **You can click **Edit** to go back and increase the server count.
+
+    ![production_environment](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/status.png)\
+    [Infrastructure Provisioning Successful window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/status.txt)
+41. Verify that the files pdOrch.json, nonpdOrch.json and infraOutput.json are created in this path:\
+    JDERefArch_InfraProvisioning/E1InfraProvisionConsole/outputJson
+
+    -   infraOutput.json contains details about the production and non-production pathcodes.  This file also contains information such as the host name and Private IP of Logic Server Load Balancer, Batch Server Load Balancer, and WebLogic Server Load Balancer. 
+    -   pdOrch.json contains details of all the instances in the production environment. This file can be imported into the JD Edwards One-Click Provisioning Console. See the section entitled:  ***Importing an Orchestration.***
+    -   nonpdOrch.json contains details of all the instances in the non-production environment. It is not possible to import this json file into the JD Edwards One-Click Provisioning Console. You can use the details in this file to orchestrate the components manually in the JD Edwards One-Click Provisioning Console.
+**Note:**
+
+`JDERefArch_InfraProvisioning\\E1InfraProvisionConsole\logs\
+`
+
+47. Click the **Edit **button on the Infrastructure Provisioning Log window to correct the information provided in case of an error.
+
+    ![shared_db](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/img/logerror.png)
+
+    [Infra Provisioning Logs window](https://docs.oracle.com/en/applications/jd-edwards/tutorial-complete-config-infra/files/logerror.txt)
 
 
 
